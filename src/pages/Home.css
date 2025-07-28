@@ -1,0 +1,301 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;            
+  width: 100%;        
+  background-color: #111827;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px; 
+  z-index: 1000;
+  box-shadow: none;   
+  height: 60px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Botões de login/cadastro */
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+  margin-left: 20px;
+}
+
+.auth-buttons button {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.auth-buttons button:hover {
+  background-color: white;
+  color: #111827;
+}
+
+/* Links do menu */
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.menu a:hover {
+  color: #3b82f6; 
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* Hero */
+.hero-section {
+  margin-top: 60px; 
+  position: relative;
+  height: 320px;
+  background-image: url('https://images.unsplash.com/photo-1611974789851-9c2a0a6f4cbd?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hero-text {
+  position: relative;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 1.25rem;
+}
+
+/* Main Section */
+.main-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 25px;
+  gap: 20px;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+/* Cada container (cripto, ação, etf, stocks) */
+.list-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  flex: 1 1 25%; /* maior que antes para dar mais largura */
+  min-width: 320px; /* aumentado para evitar quebra */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-container h2 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #111827;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 8px;
+}
+
+/* Lista estilizada */
+/* Sem scroll */
+ul {
+  list-style: none;
+  padding-right: 10px;
+  max-height: unset !important;
+  overflow-y: unset !important;
+  scrollbar-width: none;
+}
+
+ul::-webkit-scrollbar {
+  display: none;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: 2.5fr 1.3fr 1fr; /* mais espaço para o preço */
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #374151;
+  align-items: center;
+  white-space: nowrap; /* evita quebra de linha */
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+/* Alinha o preço e variação à direita */
+.list-item span:nth-child(2),
+.list-item span:nth-child(3) {
+  text-align: right;
+  padding-left: 10px;
+  white-space: nowrap;
+}
+
+/* Variação (verde/vermelho) */
+.variation.up {
+  color: #16a34a; 
+  font-weight: 700;
+}
+
+.variation.down {
+  color: #dc2626; 
+  font-weight: 700;
+}
+
+/* Informações do Dia */
+.info-dia-card {
+  background: white;
+  max-width: 900px;
+  margin: 40px auto 60px auto;
+  padding: 25px 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  font-size: 1.1rem;
+  color: #374151;
+}
+
+.info-dia-card h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #111827;
+}
+
+.info-dia-card ul {
+  list-style: disc inside;
+  padding-left: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.info-dia-card li {
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+/* Footer - mesma cor do header, ocupa só o espaço necessário */
+.footer {
+  background-color: #111827 !important;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  margin-top: 60px;
+  font-size: 0.9rem;
+
+  position: static; /* garante que não seja fixed */
+  height: auto;
+  width: 100%;
+}
+
+/* Menu mobile */
+.menu.active {
+  background-color: transparent !important;
+  position: absolute;
+  top: 60px;
+  right: 25px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Remove background cinza de section (se existir) */
+section {
+  background-color: transparent !important;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .main-section {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .list-container {
+    width: 100%;
+    min-width: unset;
+    margin-bottom: 20px;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .menu.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* Ajusta grid columns para telas pequenas */
+  .list-item {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
