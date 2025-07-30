@@ -69,10 +69,13 @@ export default function Home() {
 
   return (
     <>
+      <Header toggleMenu={toggleMenu} menuOpen={menuOpen} />
+
+    <div className="carousel-wrapper">
+      <Carousel />
+    </div>
 
       <div className="page-container">
-      <Header toggleMenu={toggleMenu} menuOpen={menuOpen} />
-      <Carousel />
       <SearchAndCards
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

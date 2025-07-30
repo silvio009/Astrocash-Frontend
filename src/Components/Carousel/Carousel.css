@@ -1,18 +1,27 @@
-
-/* Hero / Carrossel Section */
-.carousel-section {
-  margin-top: 60px; /* para compensar navbar fixa */
-  width: 100%;
-  height: 350px;
+/* Envolve todo o carrossel fora do container */
+.carousel-wrapper {
+  width: 100vw;
+  height: 100%;
+  min-height: 450px;
+  margin-top: 50px; /* Mudar depois*/
+  padding: 0;
   position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.carousel-section {
+  width: 100%;
+  height: 100%;
 }
 
 .carousel-slide {
-  height: 350px;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
   background-size: cover;
   background-position: center;
   position: relative;
-  border-radius: 12px;
   display: flex;
   align-items: flex-end;
   padding: 30px;
@@ -21,44 +30,37 @@
 }
 
 .carousel-text {
-  max-width: 500px;
-  background: rgba(0,0,0,0.4);
-  padding: 20px;
+  max-width: 640px;
+  background: rgba(0,0,0,0.5);
+  padding: 24px;
   border-radius: 12px;
+  font-size: 1.2rem;
 }
 
 .carousel-text h2 {
-  font-size: 2rem;
-  margin-bottom: 10px;
+  font-size: 2.4rem;
+  margin-bottom: 12px;
 }
 
 .carousel-text p {
   font-size: 1.1rem;
 }
 
-/* Estilização dos botões de navegação do Swiper */
+/* Swiper Buttons */
 .swiper-button-next,
 .swiper-button-prev {
-  color: rgba(128, 128, 128, 0.3) !important; /* cinza claro e transparente */
-  width: 20px !important;  /* largura menor */
-  height: 20px !important; /* altura menor */
+  color: rgba(255, 255, 255, 0.6) !important;
+  width: 28px !important;
+  height: 28px !important;
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 16px !important; /* diminui o tamanho do ícone da seta */
-}
-
-.swiper-button-next {
-  right: 10px; /* afasta um pouco da borda direita */
-}
-
-.swiper-button-prev {
-  left: 10px;  /* afasta um pouco da borda esquerda */
+  font-size: 20px !important;
 }
 
 .swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .swiper-pagination-bullet-active {

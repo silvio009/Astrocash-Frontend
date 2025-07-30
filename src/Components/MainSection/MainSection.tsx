@@ -57,9 +57,9 @@ const MainSection: React.FC<MainSectionProps> = ({
     <>
       <main className="main-section">
         <SectionCard title="Criptomoedas" list={filtro(criptomoedas)} />
-        <SectionCard title="Ações" list={filtro(acoes)} />
+        <SectionCard title="Ações (BRA)" list={filtro(acoes)} />
         <SectionCard title="ETFs" list={filtro(etfs)} />
-        <SectionCard title="Stocks" list={filtro(stocks)} />
+        <SectionCard title="Ações (EUA)" list={filtro(stocks)} />
       </main>
 
       <section className="info-dia-card">
