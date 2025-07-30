@@ -1,0 +1,108 @@
+/* Main Section */
+.main-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 40px;
+  gap: 20px;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+/* Cada container (cripto, ação, etf, stocks) */
+.list-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  flex: 1 1 25%;
+  min-width: 320px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-container h2 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #111827;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 8px;
+}
+
+/* Lista */
+ul {
+  list-style: none;
+  padding-right: 10px;
+  max-height: unset !important;
+  overflow-y: unset !important;
+  scrollbar-width: none;
+}
+
+ul::-webkit-scrollbar {
+  display: none;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: 2.5fr 1.3fr 1fr;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #374151;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item span:nth-child(2),
+.list-item span:nth-child(3) {
+  text-align: right;
+  padding-left: 10px;
+  white-space: nowrap;
+}
+
+.variation.up {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.variation.down {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* Informações do Dia */
+.info-dia-card {
+  background: white;
+  max-width: 900px;
+  margin: 40px auto 60px auto;
+  padding: 25px 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  font-size: 1.1rem;
+  color: #374151;
+}
+
+.info-dia-card h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #111827;
+}
+
+.info-dia-card ul {
+  list-style: disc inside;
+  padding-left: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.info-dia-card li {
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+

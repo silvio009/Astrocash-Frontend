@@ -1,0 +1,66 @@
+
+/* Hero / Carrossel Section */
+.carousel-section {
+  margin-top: 60px; /* para compensar navbar fixa */
+  width: 100%;
+  height: 350px;
+  position: relative;
+}
+
+.carousel-slide {
+  height: 350px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-end;
+  padding: 30px;
+  color: white;
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+}
+
+.carousel-text {
+  max-width: 500px;
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.carousel-text h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.carousel-text p {
+  font-size: 1.1rem;
+}
+
+/* Estilização dos botões de navegação do Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgba(128, 128, 128, 0.3) !important; /* cinza claro e transparente */
+  width: 20px !important;  /* largura menor */
+  height: 20px !important; /* altura menor */
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px !important; /* diminui o tamanho do ícone da seta */
+}
+
+.swiper-button-next {
+  right: 10px; /* afasta um pouco da borda direita */
+}
+
+.swiper-button-prev {
+  left: 10px;  /* afasta um pouco da borda esquerda */
+}
+
+.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.swiper-pagination-bullet-active {
+  background: #3b82f6;
+}
