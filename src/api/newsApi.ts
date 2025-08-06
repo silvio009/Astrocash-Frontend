@@ -1,5 +1,10 @@
-export async function fetchMarketNews(): Promise<string[]> {
-  const API_KEY = import.meta.env.VITE_GNEWS_API_KEY;
+interface NewsArticle {
+  title: string;
+  url: string;
+}
+
+export async function fetchMarketNews(): Promise<NewsArticle[]> {
+  const API_KEY = import.meta.env.VITE_GNEWS_API_KEY; // ou sua variável de ambiente correta
   const url = `https://gnews.io/api/v4/search?q=mercado%20financeiro&lang=pt&country=br&token=${API_KEY}`;
 
   try {
@@ -7,12 +12,27 @@ export async function fetchMarketNews(): Promise<string[]> {
     const data = await response.json();
 
     if (!data.articles || !Array.isArray(data.articles)) {
-      throw new Error("Resposta da API inválida ou sem artigos.");
+      throw new Error("Formato de dados inesperado");
     }
 
-    return data.articles.map((article: any) => article.title);
+    // Aqui mapeamos só os artigos que possuem title e url válidos,
+    // e filtramos possíveis duplicados
+    const uniqueArticlesMap = new Map<string, NewsArticle>();
+
+    data.articles.forEach((article: any) => {
+      if (typeof article.title === "string" && typeof article.url === "string") {
+        if (!uniqueArticlesMap.has(article.title)) {
+          uniqueArticlesMap.set(article.title, {
+            title: article.title,
+            url: article.url,
+          });
+        }
+      }
+    });
+
+    return Array.from(uniqueArticlesMap.values());
   } catch (error) {
     console.error("Erro ao buscar notícias:", error);
-    return ["Erro ao carregar notícias do mercado."];
+    return [];
   }
 }

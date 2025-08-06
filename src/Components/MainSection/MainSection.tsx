@@ -65,7 +65,10 @@ const MainSection: React.FC<MainSectionProps> = ({
       </main>
 
       <section className="info-dia-card">
-        <h2>Informações do Dia</h2>
+        <h2 style={{ textAlign: "center" }}>
+      <span role="img" aria-label="gráfico subindo" style={{ marginRight: "8px" }}>📈</span>
+      Informações do Dia
+    </h2>
         <ul>
           {infoDoDia.map((info, i) => (
             <li key={i}>{info}</li>
