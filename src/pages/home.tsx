@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../pages/Home.css";
-import { fetchCryptos, fetchCurrencies } from "../api";
+import { fetchCryptos, fetchCurrencies, fetchMarketNews } from "../api";
 
 import Header from "../Components/Header/Header";
 import Carousel from "../Components/Carousel/Carousel";
@@ -17,6 +17,7 @@ export default function Home() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Estados dinâmicos com cache
   const [criptomoedas, setCriptomoedas] = useState<
     { nome: string; preco: string; variacao: string }[]
   >([]);
@@ -25,23 +26,75 @@ export default function Home() {
     { nome: string; valor: string; variacao: string }[]
   >([]);
 
+  const [infoDoDia, setInfoDoDia] = useState<string[]>([]);
+
   useEffect(() => {
     async function loadData() {
-      const cryptos = await fetchCryptos();
-      const currencies = await fetchCurrencies();
-      setCriptomoedas(cryptos);
-      setPequenosCards(currencies); // aqui coloca dólar, euro, libra
+      const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+      // --- Cache criptomoedas ---
+      const cryptoCache = localStorage.getItem("cryptoCache");
+      const cryptoCacheDate = localStorage.getItem("cryptoCacheDate");
+
+      if (cryptoCache && cryptoCacheDate === today) {
+        setCriptomoedas(JSON.parse(cryptoCache));
+        console.log("Usando cache de criptomoedas do dia:", today);
+      } else {
+        try {
+          const cryptos = await fetchCryptos();
+          setCriptomoedas(cryptos);
+          localStorage.setItem("cryptoCache", JSON.stringify(cryptos));
+          localStorage.setItem("cryptoCacheDate", today);
+          console.log("Buscando novas criptomoedas e salvando cache:", today);
+        } catch (error) {
+          console.error("Erro ao buscar criptomoedas:", error);
+        }
+      }
+
+      // --- Cache moedas (pequenos cards) ---
+      const currencyCache = localStorage.getItem("currencyCache");
+      const currencyCacheDate = localStorage.getItem("currencyCacheDate");
+
+      if (currencyCache && currencyCacheDate === today) {
+        setPequenosCards(JSON.parse(currencyCache));
+        console.log("Usando cache de moedas do dia:", today);
+      } else {
+        try {
+          const currencies = await fetchCurrencies();
+          setPequenosCards(currencies);
+          localStorage.setItem("currencyCache", JSON.stringify(currencies));
+          localStorage.setItem("currencyCacheDate", today);
+          console.log("Buscando novas moedas e salvando cache:", today);
+        } catch (error) {
+          console.error("Erro ao buscar moedas:", error);
+        }
+      }
+
+      // --- Cache notícias (info do dia) ---
+      const newsCache = localStorage.getItem("newsCache");
+      const newsCacheDate = localStorage.getItem("newsCacheDate");
+
+      if (newsCache && newsCacheDate === today) {
+        setInfoDoDia(JSON.parse(newsCache));
+        console.log("Usando cache de notícias do dia:", today);
+      } else {
+        try {
+          const news = await fetchMarketNews();
+          setInfoDoDia(news);
+          localStorage.setItem("newsCache", JSON.stringify(news));
+          localStorage.setItem("newsCacheDate", today);
+          console.log("Buscando novas notícias e salvando cache:", today);
+        } catch (error) {
+          console.error("Erro ao buscar notícias:", error);
+          setInfoDoDia(["Erro ao carregar notícias do mercado."]);
+        }
+      }
     }
 
     loadData();
   }, []);
 
-  const infoDoDia = [
-    "Mercado em alta hoje.",
-    "Bitcoin subiu 5%.",
-    "Ações da Petrobras estão estáveis.",
-  ];
-
+  // Dados fixos, acoes, etfs e stocks podem continuar estáticos
   const acoes = [
     { nome: "Petrobras", preco: "R$ 30,00", variacao: "+1%" },
     { nome: "Vale", preco: "R$ 60,00", variacao: "-0.5%" },

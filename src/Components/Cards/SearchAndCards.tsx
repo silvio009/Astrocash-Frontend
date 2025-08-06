@@ -45,7 +45,6 @@ export default function SearchAndCards({
           const variacaoTrim = variacao.trim();
           const isNegative = variacaoTrim.startsWith("-");
 
-          console.log("Variação original:", variacao, "| Trim:", variacaoTrim, "| isNegative:", isNegative);
 
           return (
             <div className="small-card" key={i}>

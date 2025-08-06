@@ -1,5 +1,6 @@
 export * from './cryptoApi';
 export * from './stocksBraApi';
 export * from './etfsApi';
-export * from './currencyApi'
+export * from './currencyApi';
+export * from './newsApi';
 
