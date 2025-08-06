@@ -10,13 +10,13 @@ interface CardProps {
 interface SearchAndCardsProps {
   searchTerm: string;
   setSearchTerm: (value: string) => void;
-  pequenosCards?: CardProps[]; // Tornado opcional para evitar quebra caso não seja passado
+  pequenosCards?: CardProps[];
 }
 
 export default function SearchAndCards({
   searchTerm,
   setSearchTerm,
-  pequenosCards = [] // fallback seguro para array vazio
+  pequenosCards = []
 }: SearchAndCardsProps) {
   return (
     <section className="search-and-small-cards">
@@ -41,19 +41,24 @@ export default function SearchAndCards({
       </div>
 
       <div className="small-cards-container">
-        {pequenosCards.map(({ nome, valor, variacao }, i) => (
-          <div className="small-card" key={i}>
-            <h5>{nome}</h5>
-            <p>{valor}</p>
-            <p
-              className={`small-card-variation ${
-                variacao.includes("+") ? "positive" : "negative"
-              }`}
-            >
-              {variacao}
-            </p>
-          </div>
-        ))}
+        {pequenosCards.map(({ nome, valor, variacao }, i) => {
+          const variacaoTrim = variacao.trim();
+          const isNegative = variacaoTrim.startsWith("-");
+
+          console.log("Variação original:", variacao, "| Trim:", variacaoTrim, "| isNegative:", isNegative);
+
+          return (
+            <div className="small-card" key={i}>
+              <h5>{nome}</h5>
+              <p>{valor}</p>
+              <p
+                className={`small-card-variation ${isNegative ? "negative" : "positive"}`}
+              >
+                {variacao}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

@@ -21,7 +21,9 @@ const SectionCard: React.FC<SectionProps> = ({ title, list }) => (
           <span>{item.nome}</span>
           <span>{item.preco}</span>
           <span
-            className={`variation ${item.variacao.includes("+") ? "up" : "down"}`}
+            className={`variation ${
+              item.variacao.trim().startsWith("-") ? "down" : "up"
+            }`}
           >
             {item.variacao}
           </span>
