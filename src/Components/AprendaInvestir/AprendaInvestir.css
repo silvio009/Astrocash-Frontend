@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+.aprender-section {
+  text-align: center;
+  padding: 40px 20px;
+  background-color:  #f5f7fa;
+  font-family: 'Merriweather', serif; 
+}
+
+.aprender-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 1153px;
+  margin: 0 auto;
+}
+
+.investir-card {
+  padding: 30px 25px;
+  border-radius: 12px;
+  text-align: left;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000; /* Preto */
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  font-family: 'Merriweather', serif;
+}
+
+.investir-card:nth-child(1) { background-color: #e9f0fa; }
+.investir-card:nth-child(2) { background-color: #e9f0fa; }
+.investir-card:nth-child(3) { background-color: #e9f0fa; }
+.investir-card:nth-child(4) { background-color: #e9f0fa; }
+.investir-card:nth-child(5) { background-color: #e9f0fa; }
+.investir-card:nth-child(6) { background-color: #e9f0fa; }
+
+.investir-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-color: #000; 
+  color: #000; 
+  text-decoration: none; 
+}
+
+.investir-card h3 {
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+}
+
+.investir-card p {
+  font-size: 1.05rem; 
+}

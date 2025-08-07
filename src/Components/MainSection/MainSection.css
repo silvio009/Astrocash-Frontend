@@ -78,6 +78,7 @@ ul::-webkit-scrollbar {
   font-weight: 700;
 }
 .info-dia-card {
+  font-family: 'Merriweather', serif;
   background: white;
   max-width: 1145px; 
   margin: 40px auto 60px auto;
@@ -107,7 +108,7 @@ ul::-webkit-scrollbar {
 
 
 
-/* Centraliza só o título */
+
 .info-dia-card h2 {
   font-weight: 900;
   font-size: 2.2rem;
@@ -119,10 +120,10 @@ ul::-webkit-scrollbar {
   user-select: none;
 }
 
-/* Emoji à esquerda do título */
+
 .info-dia-card h2::before {
   position: absolute;
-  left: calc(50% - 100px); /* Ajusta a posição para perto do centro */
+  left: calc(50% - 100px); 
   top: 50%;
   transform: translateY(-50%);
   font-size: 2.4rem;
@@ -130,7 +131,6 @@ ul::-webkit-scrollbar {
   color: #3b82f6;
 }
 
-/* Lista com alinhamento à esquerda e pontos */
 .info-dia-card ul {
   list-style: disc inside;
   padding-left: 20px;
@@ -154,7 +154,6 @@ ul::-webkit-scrollbar {
   border: 2px solid transparent;
 }
 
-/* Itens da lista com hover e alinhados à esquerda */
 .info-dia-card li {
   margin-bottom: 18px;
   line-height: 1.6;
@@ -168,7 +167,7 @@ ul::-webkit-scrollbar {
   position: relative;
 }
 
-/* Hover para levantar o item */
+
 .info-dia-card li:hover {
   color: #2563eb;
   font-weight: 700;
@@ -176,7 +175,6 @@ ul::-webkit-scrollbar {
 }
 
 .info-dia-card a:hover {
-  color: #2563eb; /* azul no hover */
-  text-decoration: underline;
+  color: #2563eb; 
 }
 

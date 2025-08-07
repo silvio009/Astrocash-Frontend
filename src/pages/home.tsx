@@ -11,6 +11,9 @@ import Carousel from "../Components/Carousel/Carousel";
 import SearchAndCards from "../Components/Cards/SearchAndCards";
 import MainSection from "../Components/MainSection/MainSection";
 import Footer from "../Components/Footer/FooterSection";
+import AprendaInvestir from "../Components/AprendaInvestir/AprendaInvestir";
+
+
 
 interface NewsItem {
   title: string;
@@ -132,8 +135,12 @@ export default function Home() {
           stocks={stocks}
           searchTerm={searchTerm}
           infoDoDia={infoDoDia}
+          
         />
       </div>
+
+      <AprendaInvestir />
+
 
       <Footer />
     </>
