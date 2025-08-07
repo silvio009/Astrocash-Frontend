@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+
 /* Main Section */
 .main-section {
   display: flex;
@@ -76,19 +79,33 @@ ul::-webkit-scrollbar {
 }
 .info-dia-card {
   background: white;
-  max-width: 1000px;
+  max-width: 1145px; 
   margin: 40px auto 60px auto;
-  padding: 30px 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 20px 30px; 
+  border-radius: 12px; 
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   font-size: 1.3rem;
-  color: #374151;
+  color: #000;
   font-weight: 700;
   position: relative;
   overflow: hidden;
-  border: 2px solid #3b82f6;
+  border: 1px solid rgba(0,0,0,0.05); 
   transition: box-shadow 0.3s ease;
 }
+
+.info-dia-card a {
+  margin-top: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #000; /* preto normal */
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+
 
 /* Centraliza só o título */
 .info-dia-card h2 {
@@ -156,5 +173,10 @@ ul::-webkit-scrollbar {
   color: #2563eb;
   font-weight: 700;
   transform: translateY(-5px);
+}
+
+.info-dia-card a:hover {
+  color: #2563eb; /* azul no hover */
+  text-decoration: underline;
 }
 
