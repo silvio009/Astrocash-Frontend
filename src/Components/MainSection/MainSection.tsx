@@ -7,6 +7,11 @@ interface Item {
   variacao: string;
 }
 
+interface InfoItem {
+  title: string;
+  url: string;
+}
+
 interface SectionProps {
   title: string;
   list: Item[];
@@ -33,13 +38,14 @@ const SectionCard: React.FC<SectionProps> = ({ title, list }) => (
   </div>
 );
 
+
 interface MainSectionProps {
   criptomoedas: Item[];
   acoes: Item[];
   etfs: Item[];
   stocks: Item[];
   searchTerm: string;
-  infoDoDia?: string[]; // nova prop opcional
+  infoDoDia?: InfoItem[];
 }
 
 const MainSection: React.FC<MainSectionProps> = ({
@@ -64,17 +70,26 @@ const MainSection: React.FC<MainSectionProps> = ({
         <SectionCard title="Ações (EUA)" list={filtro(stocks)} />
       </main>
 
-      <section className="info-dia-card">
-        <h2 style={{ textAlign: "center" }}>
-      <span role="img" aria-label="gráfico subindo" style={{ marginRight: "8px" }}>📈</span>
-      Informações do Dia
-    </h2>
-        <ul>
-          {infoDoDia.map((info, i) => (
-            <li key={i}>{info}</li>
-          ))}
-        </ul>
-      </section>
+    <section className="info-dia-card">
+      <h2 style={{ textAlign: "center" }}>
+        <span role="img" aria-label="gráfico subindo" style={{ marginRight: "8px" }}>📈</span>
+        Informações do Dia
+      </h2>
+      <ul>
+        {infoDoDia.map((info, i) => (
+          <li key={i}>
+            <a
+              href={info.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="info-link"
+            >
+              {info.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
     </>
   );
 };

@@ -131,9 +131,7 @@ export default function Home() {
           etfs={etfs}
           stocks={stocks}
           searchTerm={searchTerm}
-          infoDoDia={infoDoDia.map((info) => (
-            `<a href="${info.url}" target="_blank" rel="noopener noreferrer">✨ ${info.title}</a>`
-          ))}
+          infoDoDia={infoDoDia}
         />
       </div>
 
