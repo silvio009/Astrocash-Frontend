@@ -1,4 +1,5 @@
-/* Envolve todo o carrossel fora do container */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap');
+
 .carousel-wrapper {
   width: 100vw;
   height: 100%;
@@ -16,34 +17,50 @@
 }
 
 .carousel-slide {
+  display: flex;
+  align-items: center;   
+  justify-content: flex-start; 
+  
+
   width: 100%;
   height: 100%;
   min-height: 600px;
   background-size: cover;
   background-position: center;
   position: relative;
-  display: flex;
-  align-items: flex-end;
   padding: 30px;
   color: white;
   box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+  cursor: pointer;
 }
+
 
 .carousel-text {
   max-width: 640px;
-  background: rgba(0,0,0,0.5);
-  padding: 24px;
-  border-radius: 12px;
-  font-size: 1.2rem;
+  background: transparent;
+  padding-left: 20px;  
+  padding-right: 10px; 
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
 }
 
 .carousel-text h2 {
-  font-size: 2.4rem;
-  margin-bottom: 12px;
+  font-size: 2.2rem; 
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: none; 
+  letter-spacing: 0.5px;
+  padding-left: 20px; 
 }
 
 .carousel-text p {
   font-size: 1.1rem;
+  font-weight: 500;
+  color: #ddd;
+  line-height: 1.5;
+  padding-left: 20px; 
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 /* Swiper Buttons */
@@ -59,10 +76,6 @@
   font-size: 20px !important;
 }
 
-.swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.swiper-pagination-bullet-active {
-  background: #3b82f6;
+.swiper-pagination {
+  display: none !important;
 }

@@ -1,30 +1,40 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import "../Carousel/Carousel.css"
+import "../Carousel/Carousel.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+import segurancaImg from "../../assets/seguranca.jpg";
+import bitcoinImg from "../../assets/bitcoin.jpg";
+import stockImg from "../../assets/stock.jpg";
 
 export default function Carousel() {
   const slides = [
     {
-      img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+      img: segurancaImg,
       title: "Invista com segurança",
-      description: "Tenha as melhores análises e dados para seus investimentos."
+      description: "Tenha as melhores análises e dados para seus investimentos.",
+      link: "/pagina-seguranca" 
     },
     {
-      img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
-      title: "Mercados globais",
-      description: "Acompanhe ações, ETFs e criptomoedas em tempo real."
+      img: bitcoinImg,
+      title: "Explore o universo das criptomoedas",
+      description: "Aprenda e invista nas principais moedas digitais.",
+      link: "/CryptoMoeda"
     },
     {
-      img: "https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=1600&q=80",
+      img: stockImg,
       title: "Tecnologia de ponta",
-      description: "Ferramentas modernas para você tomar decisões inteligentes."
+      description: "Ferramentas modernas para você tomar decisões inteligentes.",
+      link: "/pagina-tecnologia"
     }
   ];
+
+  const handleClick = (link: string) => {
+    window.location.href = link;
+  };
 
   return (
     <section className="carousel-section">
@@ -42,6 +52,7 @@ export default function Carousel() {
             <div
               className="carousel-slide"
               style={{ backgroundImage: `url(${slide.img})` }}
+              onClick={() => handleClick(slide.link)}
             >
               <div className="carousel-text">
                 <h2>{slide.title}</h2>
