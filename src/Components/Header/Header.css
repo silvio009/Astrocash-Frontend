@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center; 
   padding: 15px 40px;
-  background-color: #111827;
+  background-color: rgb(5, 10, 20);
   color: white;
   position: fixed;
   top: 0;
@@ -86,4 +86,11 @@
   height: 230px;
   width: auto;
   cursor: pointer;
+}
+
+.navbar-scrolled {
+  background-color: rgba(0, 0, 0, 0.6); /* preto fosco semi-transparente */
+  backdrop-filter: blur(8px); /* efeito fosco */
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* sombra sutil para destacar */
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../Header/Header.css";
 
 // Importa a imagem do logo
@@ -10,9 +10,25 @@ interface HeaderProps {
 }
 
 export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Limpeza do event listener
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="navbar">
-      {/* Substitui o texto pela imagem */}
+    <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="logo">
         <img src={logoImg} alt="AstroCash Logo" />
       </div>
