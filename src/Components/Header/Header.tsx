@@ -1,5 +1,8 @@
 import React from "react";
-import "../Header/Header.css"
+import "../Header/Header.css";
+
+// Importa a imagem do logo
+import logoImg from "../../assets/logo_AstroCash.png";
 
 interface HeaderProps {
   toggleMenu: () => void;
@@ -9,7 +12,10 @@ interface HeaderProps {
 export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
   return (
     <header className="navbar">
-      <div className="logo">AstroCash</div>
+      {/* Substitui o texto pela imagem */}
+      <div className="logo">
+        <img src={logoImg} alt="AstroCash Logo" />
+      </div>
 
       <nav className={`menu ${menuOpen ? "active" : ""}`}>
         <a href="/como-investir">Como Investir</a>

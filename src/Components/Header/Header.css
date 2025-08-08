@@ -1,17 +1,17 @@
 /* Navbar */
 .navbar {
+  height: 85px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  padding: 15px 40px;
+  background-color: #111827;
+  color: white;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #111827;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
   z-index: 1000;
-  height: 60px;
 }
 
 .logo {
@@ -72,4 +72,18 @@
   height: 3px;
   background: white;
   border-radius: 2px;
+}
+
+.logo {
+  min-width: 180px; 
+  height: 80px;    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  height: 230px;
+  width: auto;
+  cursor: pointer;
 }
