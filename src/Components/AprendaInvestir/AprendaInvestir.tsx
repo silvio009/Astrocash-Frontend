@@ -35,20 +35,20 @@ const AprendaInvestir = () => {
   ];
 
   return (
-    <section className="aprender-section">
-      <div className="cards-container">
-        {cards.map((card, index) => (
-          <a 
-            href={card.link} 
-            key={index} 
-            className={`investir-card color-group-${Math.floor(index / 2) + 1}`}
-          >
-            <h3>{card.titulo}</h3>
-            <p>{card.descricao}</p>
-          </a>
-        ))}
-      </div>
-    </section>
+  <section id="aprenda-investir" className="aprender-section">
+    <div className="cards-container">
+      {cards.map((card, index) => (
+        <a 
+          href={card.link} 
+          key={index} 
+          className={`investir-card color-group-${Math.floor(index / 2) + 1}`}
+        >
+          <h3>{card.titulo}</h3>
+          <p>{card.descricao}</p>
+        </a>
+      ))}
+    </div>
+  </section>
   );
 };
 

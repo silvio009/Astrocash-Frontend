@@ -1,0 +1,34 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 100px; 
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  z-index: 1000; 
+  transition: filter 0.3s ease;
+}
+
+.scroll-to-top:focus {
+  outline: none; 
+}
+
+.scroll-to-top img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; 
+  transition: filter 0.3s ease;
+}
+
+.scroll-to-top:hover img {
+  filter: brightness(0.6) saturate(2) hue-rotate(200deg);
+}

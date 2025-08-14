@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../Header/Header.css";
 
-// Importa a imagem do logo
 import logoImg from "../../assets/logo_AstroCash.png";
 
 interface HeaderProps {
@@ -23,18 +22,38 @@ export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Limpeza do event listener
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="logo">
-        <img src={logoImg} alt="AstroCash Logo" />
+        <img src={logoImg} alt="AstroCash Logo" 
+        style={{ cursor: "pointer" }}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}/>
+        
       </div>
 
       <nav className={`menu ${menuOpen ? "active" : ""}`}>
-        <a href="/como-investir">Como Investir</a>
+       <a
+          href="#aprenda-investir"
+          onClick={(e) => {
+            e.preventDefault();
+            const section = document.getElementById("aprenda-investir");
+            if (section) {
+              const headerOffset = 85; 
+              const elementPosition = section.getBoundingClientRect().top + window.scrollY;
+              const offsetPosition = elementPosition - headerOffset;
+
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+              });
+            }
+          }}
+        >
+          Como Investir
+        </a>
         <div className="auth-buttons">
           <button type="button">Cadastrar-se</button>
           <button type="button">Entrar</button>

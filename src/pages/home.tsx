@@ -12,6 +12,8 @@ import SearchAndCards from "../Components/Cards/SearchAndCards";
 import MainSection from "../Components/MainSection/MainSection";
 import Footer from "../Components/Footer/FooterSection";
 import AprendaInvestir from "../Components/AprendaInvestir/AprendaInvestir";
+import Rondo from "../Components/Rondo/Rondo";
+import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
 
 
 
@@ -140,9 +142,9 @@ export default function Home() {
       </div>
 
       <AprendaInvestir />
-
-
+      <Rondo />
       <Footer />
+      <ScrollToTop />
     </>
   );
 }
