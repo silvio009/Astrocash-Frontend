@@ -423,3 +423,45 @@
   line-height: 1.6;
   font-size: 1rem;
 }
+
+
+.rf-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px; 
+  margin: 120px 24px 32px; 
+  color: #444;
+}
+
+.rf-breadcrumb-link,
+.rf-breadcrumb-current {
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Link Home */
+.rf-breadcrumb-link {
+  text-decoration: none;
+  color: #444;
+}
+
+.rf-breadcrumb-link:hover {
+  color: #000;           
+  transform: translateY(-2px); 
+}
+
+/* Página atual */
+.rf-breadcrumb-current {
+  font-weight: 600;
+  color: #222;
+}
+
+.rf-breadcrumb-current:hover {
+  transform: scale(1.05); 
+}
+
+.rf-breadcrumb-separator {
+  color: #666;
+}

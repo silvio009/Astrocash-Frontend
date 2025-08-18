@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion ,AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Home } from "lucide-react";
+
 import {
   LineChart,
   Line,
@@ -73,7 +75,15 @@ export default function RendaFixa() {
   return (
     <div className="rf-container">
       <Header />
-      <motion.main className="rf-main" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+
+
+        <nav className="rf-breadcrumb">
+          <Link to="/" className="rf-breadcrumb-link">Home</Link>
+          <span className="rf-breadcrumb-separator">›</span>
+          <span className="rf-breadcrumb-current">Renda Fixa</span>
+        </nav>
+
+       <motion.main className="rf-main" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
         
         {/* HERO */}
         <div className="rf-hero">
