@@ -5,32 +5,32 @@ const AprendaInvestir = () => {
     {
       titulo: "O que é Renda Fixa?",
       descricao: "Aprenda os conceitos básicos de renda fixa e como investir com segurança.",
-      link: "/renda-fixa"
+      link: "/renda_fixa"
     },
     {
       titulo: "Diferença entre Ações e ETFs",
       descricao: "Entenda as principais diferenças e saiba onde investir.",
-      link: "/acoes-vs-etfs"
+      link: "/acoes_vs_etfs"
     },
     {
       titulo: "Como funciona o Tesouro Direto?",
       descricao: "Veja como aplicar em títulos públicos e garantir retorno a longo prazo.",
-      link: "/tesouro-direto"
+      link: "/tesouro_direto"
     },
     {
       titulo: "Fundos Imobiliários Explicados",
       descricao: "Descubra como investir em imóveis sem comprá-los fisicamente.",
-      link: "/fundos-imobiliarios"
+      link: "/fundos_imobiliarios"
     },
     {
       titulo: "Como investir em ações dos EUA",
       descricao: "Passo a passo para investir na bolsa americana.",
-      link: "/acoes-eua"
+      link: "/acoes_eua"
     },
     {
       titulo: "Reserva de Emergência",
       descricao: "A importância de ter um fundo para imprevistos e como começar.",
-      link: "/reserva-emergencia"
+      link: "/reserva_emergencia"
     },
   ];
 

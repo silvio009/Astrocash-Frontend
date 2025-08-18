@@ -1,0 +1,241 @@
+.rf-container {
+  font-family: 'Inter', sans-serif;
+  color: #1f1f1f;
+  line-height: 1.6;
+}
+
+.rf-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.rf-section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.rf-section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.rf-section-subtitle {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Hero */
+.rf-hero {
+  position: relative;
+  color: white;
+  margin-top: 0;
+}
+
+.rf-hero-bg img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+/* Hero grid */
+.rf-hero-grid {
+  display: flex;
+  gap: 20px;
+  margin-top: 0;
+  flex-wrap: wrap;
+}
+
+.rf-hero-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.rf-hero-text {
+  flex: 1 1 500px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.rf-hero-text h1, .rf-hero-text p {
+  margin: 0 0 15px 0;
+}
+
+.rf-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.rf-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: #1f1f1f;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.rf-stat-icon {
+  font-size: 1.5rem;
+  color: #0070f3;
+}
+
+.rf-stat-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.rf-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.rf-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.rf-card-body {
+  padding: 20px;
+}
+
+.rf-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.rf-card-footer {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.rf-img-card {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}
+
+.rf-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.rf-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.rf-alert {
+  background: #fff3cd;
+  color: #856404;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.rf-input-grid {
+  display: grid;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.rf-input-grid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.rf-input-grid input {
+  margin-top: 5px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.rf-chart {
+  margin-top: 20px;
+}
+
+.rf-prose p, .rf-prose ul, .rf-prose h4, .rf-prose pre {
+  margin-bottom: 15px;
+}
+
+.rf-prose h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.rf-prose ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.rf-prose pre {
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.rf-simulador {
+  background: #f8f9fa;
+  padding: 20px;
+}
+
+.rf-grid-2 .rf-prose {
+  color: #1f1f1f;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+
+.rf-card-body-dark {
+  color: #000; 
+}
+
+.rf-card-body-dark h3 {
+  color: #000; 
+}
+
+.rf-card-body-dark ul li {
+  color: #000; 
+}
+
+.rf-hero-text {
+  margin-top: 100px; 
+}
+
+.rf-hero-card {
+  margin-top: 100px; 
+}
