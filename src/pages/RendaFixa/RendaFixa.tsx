@@ -46,24 +46,32 @@ const Stat = ({ icon: Icon, label, value }: { icon: any; label: string; value: s
 );
 
 export default function RendaFixa() {
-  const [aporteInicial, setAporteInicial] = useState(1000);
-  const [aporteMensal, setAporteMensal] = useState(200);
-  const [taxaAnual, setTaxaAnual] = useState(10);
-  const [meses, setMeses] = useState(36);
-  const [aliquotaIR, setAliquotaIR] = useState(17.5);
+  const [aporteInicial, setAporteInicial] = useState<string>("1000");
+  const [aporteMensal, setAporteMensal] = useState<string>("200");
+  const [taxaAnual, setTaxaAnual] = useState<string>("10");
+  const [meses, setMeses] = useState<string>("36");
+  const [aliquotaIR, setAliquotaIR] = useState<string>("17.5");
 
-  const taxaMensal = useMemo(() => Math.pow(1 + taxaAnual / 100, 1 / 12) - 1, [taxaAnual]);
+  const taxaMensal = useMemo(() => {
+    const taxaAnualNum = Number(taxaAnual) || 0;
+    return Math.pow(1 + taxaAnualNum / 100, 1 / 12) - 1;
+  }, [taxaAnual]);
 
   const simulacao = useMemo(() => {
     const data: { mes: number; bruto: number; aporte: number; liquido: number }[] = [];
-    let saldo = aporteInicial;
-    let totalAportes = aporteInicial;
+    const aporteInicialNum = Number(aporteInicial) || 0;
+    const aporteMensalNum = Number(aporteMensal) || 0;
+    const mesesNum = Math.max(0, Math.floor(Number(meses) || 0));
+    const aliquotaIRNum = Number(aliquotaIR) || 0;
 
-    for (let m = 1; m <= meses; m++) {
-      saldo = saldo * (1 + taxaMensal) + aporteMensal;
-      totalAportes += aporteMensal;
+    let saldo = aporteInicialNum;
+    let totalAportes = aporteInicialNum;
+
+    for (let m = 1; m <= mesesNum; m++) {
+      saldo = saldo * (1 + taxaMensal) + aporteMensalNum;
+      totalAportes += aporteMensalNum;
       const rendimentoBruto = saldo - totalAportes;
-      const imposto = Math.max(rendimentoBruto, 0) * (aliquotaIR / 100);
+      const imposto = Math.max(rendimentoBruto, 0) * (aliquotaIRNum / 100);
       const saldoLiquido = saldo - imposto;
       data.push({ mes: m, bruto: saldo, aporte: totalAportes, liquido: saldoLiquido });
     }
@@ -74,7 +82,7 @@ export default function RendaFixa() {
 
   return (
     <div className="rf-container">
-      <Header />
+       <Header toggleMenu={() => {}} menuOpen={false} />
 
 
         <nav className="rf-breadcrumb">
@@ -154,7 +162,7 @@ export default function RendaFixa() {
             {[{
               icon: Landmark,
               title: "Tesouro Direto",
-              text: "Títulos públicos: Selic, Prefixado, IPCA+.",
+              text: "Títulos públicos: Selic, Prefixado, IPCA+. ",
               img: "https://images.unsplash.com/photo-1516245834210-c4c142787335?q=80&w=1200&auto=format&fit=crop"
             },{
               icon: Coins,
@@ -184,33 +192,69 @@ export default function RendaFixa() {
           <div className="rf-grid-2">
             <div className="rf-prose">
               <h4>Juros simples</h4>
-                <p>O juros simples é calculado apenas sobre o valor inicial investido, sem acumular os juros ao longo do tempo.</p>
-                <pre>{`Ex: P = 1000, i = 2% ao mês, n = 6 meses\nJ = P * i * n = 1000 * 0.02 * 6 = 120\nMontante final M = P + J = 1000 + 120 = 1120`}</pre>
+                  <p>É quando os juros são sempre calculados apenas sobre o valor inicial. Ou seja, o rendimento não aumenta com o tempo.</p>
+                  <pre>{`Ex: P = 1000, i = 2% ao mês, n = 6 meses
+                  J = P * i * n = 1000 * 0.02 * 6 = 120
+        Montante final M = P + J = 1000 + 120 = 1120`}</pre>
 
-                <h4>Juros compostos</h4>
-                <p>Nos juros compostos, os juros de cada período se somam ao valor investido, fazendo o dinheiro “render sobre o rendimento”.</p>
-                <pre>{`Ex: P = 1000, i = 2% ao mês, n = 6 meses\nM = P * (1 + i)^n = 1000 * (1 + 0.02)^6 ≈ 1126.16`}</pre>
+                  <h4>Juros compostos</h4>
+                  <p>Aqui os juros de cada mês são somados ao valor investido, fazendo o dinheiro render sobre ele mesmo. É o famoso "juros sobre juros".</p>
+                  <pre>{`Ex: P = 1000, i = 2% ao mês, n = 6 meses
+        M = P * (1 + i)^n = 1000 * (1 + 0.02)^6 ≈ 1126.16`}</pre>
 
-                <h4>Taxa real (IPCA+)</h4>
-                <p>Alguns investimentos oferecem rentabilidade acima da inflação, garantindo ganho real.</p>
-                <pre>{`i_real ≈ i_nominal - inflação\nEx: i_nominal = 10%, inflação = 3%, i_real ≈ 7%`}</pre>
+                  <h4>Taxa real (IPCA+)</h4>
+                  <p>Mostra o ganho acima da inflação. Se a inflação for alta, ela "come" parte do rendimento.</p>
+                  <pre>{`i_real ≈ i_nominal - inflação
+        Ex: i_nominal = 10%, inflação = 3%, i_real ≈ 7%`}</pre>
 
-                <h4>Rentabilidade líquida</h4>
-                <p>Após o imposto de renda, o rendimento efetivo do investimento será menor. O IR regressivo depende do tempo que você mantém o investimento.</p>
-                <pre>{`Ex: Rendimento bruto = 1000, alíquota IR = 17,5%\nRendimento líquido = 1000 - (1000 * 0.175) = 825`}</pre>
+                  <h4>Rentabilidade líquida</h4>
+                  <p>É o rendimento depois do imposto de renda. O valor final é sempre menor que o bruto.</p>
+                  <pre>{`Ex: Rendimento bruto = 1000, alíquota IR = 17,5%
+        Rendimento líquido = 1000 - (1000 * 0.175) = 825`}</pre>
             </div>
             <div className="rf-card rf-simulador">
               <h4><Calculator /> Simulador rápido</h4>
               <div className="rf-input-grid">
-                <label>Aporte inicial<input type="number" value={aporteInicial} onChange={(e)=>setAporteInicial(Number(e.target.value) || 0)} /></label>
-                <label>Aporte mensal<input type="number" value={aporteMensal} onChange={(e)=>setAporteMensal(Number(e.target.value) || 0)} /></label>
-                <label>Taxa anual (%)<input type="number" value={taxaAnual} onChange={(e)=>setTaxaAnual(Number(e.target.value) || 0)} /></label>
-                <label>Prazo (meses)<input type="number" value={meses} onChange={(e)=>setMeses(Number(e.target.value) || 0)} /></label>
-                <label>Alíquota IR (%)<input type="number" value={aliquotaIR} onChange={(e)=>setAliquotaIR(Number(e.target.value) || 0)} /></label>
+                {/* agora os inputs são controlados por strings — permitem ficar vazios */}
+                <label>Aporte inicial
+                  <input
+                    type="number"
+                    value={aporteInicial}
+                    onChange={(e)=>setAporteInicial(e.target.value)}
+                  />
+                </label>
+                <label>Aporte mensal
+                  <input
+                    type="number"
+                    value={aporteMensal}
+                    onChange={(e)=>setAporteMensal(e.target.value)}
+                  />
+                </label>
+                <label>Taxa anual (%)
+                  <input
+                    type="number"
+                    value={taxaAnual}
+                    onChange={(e)=>setTaxaAnual(e.target.value)}
+                  />
+                </label>
+                <label>Prazo (meses)
+                  <input
+                    type="number"
+                    value={meses}
+                    onChange={(e)=>setMeses(e.target.value)}
+                  />
+                </label>
+                <label>Alíquota IR (%)
+                  <input
+                    type="number"
+                    value={aliquotaIR}
+                    onChange={(e)=>setAliquotaIR(e.target.value)}
+                  />
+                </label>
               </div>
 
               <div className="rf-stats-grid">
-                <Stat icon={Coins} label="Aportes totais" value={brl((aporteInicial + aporteMensal * meses))} />
+                <Stat icon={Coins} label="Aportes totais" value={brl((Number(aporteInicial) || 0) + (Number(aporteMensal) || 0) * (Number(meses) || 0))} />
                 <Stat icon={TrendingUp} label="Montante bruto" value={final? brl(final.bruto) : brl(0)} />
                 <Stat icon={ShieldCheck} label="Montante líquido" value={final? brl(final.liquido) : brl(0)} />
               </div>

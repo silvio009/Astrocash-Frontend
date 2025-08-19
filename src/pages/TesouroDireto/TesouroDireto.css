@@ -1,0 +1,331 @@
+/* Container base */
+.td-container {
+  font-family: 'Inter', sans-serif;
+  color: #1f1f1f;
+  line-height: 1.6;
+}
+
+/* Section base */
+.td-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.td-section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.td-section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.td-section-subtitle {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Hero */
+.td-hero {
+  position: relative;
+  color: white;
+  margin-top: 0;
+}
+
+.td-hero-bg img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+/* Hero grid */
+.td-hero-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 0;
+}
+
+.td-hero-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.td-hero-text {
+  flex: 1 1 500px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.td-hero-text h1,
+.td-hero-text p {
+  margin: 0 0 15px 0;
+}
+
+/* Estatísticas */
+.td-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.td-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: #1f1f1f;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.td-stat-icon {
+  font-size: 1.5rem;
+  color: #0070f3;
+}
+
+.td-stat-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.td-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Cards base */
+.td-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.td-card-body {
+  padding: 20px;
+}
+
+.td-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.td-card-footer {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.td-img-card {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Grid expandido O que é */
+.td-grid-2-expanded {
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+}
+
+.td-prose-expanded {
+  flex: 1 1 550px;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.td-img-card-expanded {
+  flex: 1 1 400px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Alertas */
+.td-alert-expanded {
+  background: #fff3cd;
+  color: #856404;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.td-alert-expanded .td-alert-items {
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* FAQ */
+.td-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.td-faq-item {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+}
+
+.td-faq-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.td-faq-icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  color: #007bff;
+}
+
+.td-faq-answer p {
+  margin-top: 12px;
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Breadcrumb */
+.td-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  margin: 120px 24px 32px;
+  color: #444;
+}
+
+.td-breadcrumb-link,
+.td-breadcrumb-current {
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.td-breadcrumb-link {
+  text-decoration: none;
+  color: #444;
+}
+
+.td-breadcrumb-link:hover {
+  color: #000;
+  transform: translateY(-2px);
+}
+
+.td-breadcrumb-current {
+  font-weight: 600;
+  color: #222;
+}
+
+.td-breadcrumb-current:hover {
+  transform: scale(1.05);
+}
+
+.td-breadcrumb-separator {
+  color: #666;
+}
+
+/* Tipos de títulos */
+.td-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.td-type {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.td-type-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.td-type-icon {
+  font-size: 1.5rem;
+  color: #0070f3;
+}
+
+.td-type-sub {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.td-type-badge {
+  background: #e0f0ff;
+  color: #0070f3;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+/* Onde investir - força 3 colunas */
+.td-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Prose da seção legislação e cuidados */
+.td-prose h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.td-prose ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.td-prose p {
+  margin-bottom: 15px;
+}
