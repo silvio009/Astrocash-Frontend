@@ -20,6 +20,8 @@ import Footer from "../../components/Footer/FooterSection";
 import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 import "./tesourodireto.css";
 
+import TesouroDiretoimg from "../../assets/TesouroDireto.jpg";
+
 const Section = ({ id, title, subtitle, children }: { id?: string; title?: string; subtitle?: string; children: React.ReactNode }) => (
   <section id={id} className="td-section">
     {title && (
@@ -66,6 +68,14 @@ export default function TesouroDireto() {
       q: "Quais os riscos principais?",
       a: "Risco de mercado (variação do preço), risco de inflação para prefixados e risco de liquidez secundária. Risco de crédito do Tesouro é baixíssimo (garantia do governo).",
     },
+    {
+      q: "É seguro investir em Tesouro Direto?",
+      a: "Sim, pois são títulos emitidos pelo governo federal, considerado o investimento de menor risco de crédito no país.",
+    },
+    {
+      q: "Posso transferir meus títulos entre corretoras?",
+      a: "Sim, mas existem regras e prazos; verifique com a corretora atual e a futura antes de realizar a transferência.",
+    }
   ];
 
   const tipos = [
@@ -158,7 +168,7 @@ export default function TesouroDireto() {
         </div>
 
         {/* O QUE É */}
-        <Section id="o-que-e" title="O que é o Tesouro Direto?" subtitle="Investimento em títulos públicos do Governo Federal">
+        <Section id="o-que-e" title="O que é o Tesouro Direto?">
           <div className="td-grid-2-expanded">
             <div className="td-prose-expanded">
               <p>
@@ -198,7 +208,7 @@ export default function TesouroDireto() {
               </div>
             </div>
 
-            <img className="td-img-card-expanded" src="https://images.unsplash.com/photo-1565372911362-20eb77c48b11?q=80&w=1400&auto=format&fit=crop" alt="Tesouro Direto explicação" />
+           <img className="td-img-card-expanded" src={TesouroDiretoimg} alt="Tesouro Direto explicação" />
           </div>
         </Section>
 
@@ -264,7 +274,7 @@ export default function TesouroDireto() {
         </Section>
 
         {/* FAQ */}
-        <Section title="Perguntas frequentes" subtitle="Dúvidas comuns sobre Tesouro Direto">
+        <Section title="Perguntas frequentes">
           <div className="td-faq">
             {faqList.map((f, i) => {
               const open = faqOpen === i;

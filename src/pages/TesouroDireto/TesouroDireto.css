@@ -5,6 +5,9 @@
   line-height: 1.6;
 }
 
+.td-hero-card-body {
+    color: #000;
+}
 /* Section base */
 .td-section {
   padding: 60px 20px;
@@ -157,10 +160,13 @@
 }
 
 .td-img-card-expanded {
-  flex: 1 1 400px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 12px;
+  width: 100%;          
+  max-width: 500px;     
+  max-height: 500px;       
+  object-fit: cover;    
+  border-radius: 12px;  
+  display: block;      
+  margin: 0 auto;      
 }
 
 /* Alertas */
@@ -288,7 +294,6 @@
 
 .td-type-icon {
   font-size: 1.5rem;
-  color: #0070f3;
 }
 
 .td-type-sub {
@@ -329,3 +334,5 @@
 .td-prose p {
   margin-bottom: 15px;
 }
+
+
