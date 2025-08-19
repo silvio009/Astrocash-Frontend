@@ -13,6 +13,7 @@ import {
   AlertTriangle,
   Coins,
   ChevronDown,
+  CreditCard
 } from "lucide-react";
 
 import Header from "../../components/Header/Header";
@@ -250,28 +251,40 @@ export default function TesouroDireto() {
         </Section>
 
         {/* LEGISLAÇÃO E CUIDADOS */}
-        <Section title="Legislação e cuidados" subtitle="O que observar antes de aplicar">
-          <div className="td-prose">
-            <h4>Regulamentação</h4>
-            <p>O Tesouro Direto é regulamentado e fiscalizado por órgãos oficiais (Tesouro Nacional, B3, CVM e Banco Central). As regras de negociação, custódia e registro são públicas.</p>
+            <Section title="Legislação e cuidados" subtitle="O que observar antes de aplicar">
+            <div className="td-prose-enhanced">
+                
+                <h4><ShieldCheck className="td-icon" /> Regulamentação</h4>
+                <p>
+                O Tesouro Direto é regulamentado e fiscalizado por órgãos oficiais: Tesouro Nacional, B3, CVM e Banco Central. 
+                As regras de negociação, custódia e registro são públicas e podem ser consultadas diretamente nos sites oficiais.
+                É essencial conhecer essas normas antes de investir para garantir segurança jurídica e financeira.
+                </p>
 
-            <h4>Taxas e custos</h4>
-            <ul>
-              <li>Taxa de custódia da B3 (verificar valor atual no site oficial).</li>
-              <li>Possível cobrança de taxa pela corretora — comparar antes de abrir conta.</li>
-            </ul>
+                <h4><CreditCard className="td-icon" /> Taxas e custos</h4>
+                <ul>
+                <li>Taxa de custódia da B3 (verificar valor atual no site oficial).</li>
+                <li>Possível cobrança de taxa pela corretora — comparar antes de abrir conta.</li>
+                <li>Impostos: IOF em resgates em menos de 30 dias e IR regressivo sobre rendimento.</li>
+                <li>Algumas corretoras oferecem isenção de taxa para títulos específicos — vale pesquisar.</li>
+                </ul>
 
-            <h4>Cuidados práticos</h4>
-            <ul>
-              <li>Defina o objetivo e o prazo antes de escolher o título.</li>
-              <li>Atenção ao vender antes do vencimento: possível variação negativa.</li>
-              <li>Considere a tributação na simulação de retorno.</li>
-              <li>Mantenha documentos e acesso seguros (2FA nas corretoras).</li>
-            </ul>
+                <h4><AlertTriangle className="td-icon" /> Cuidados práticos</h4>
+                <ul>
+                <li>Defina o objetivo e o prazo antes de escolher o título.</li>
+                <li>Atenção ao vender antes do vencimento: possível variação negativa.</li>
+                <li>Considere a tributação na simulação de retorno.</li>
+                <li>Mantenha documentos e acessos seguros (como 2FA nas corretoras).</li>
+                <li>Revise periodicamente sua carteira para manter alinhamento com seus objetivos.</li>
+                </ul>
 
-            <p>Para legislação e documentos oficiais, consulte a página de documentação no site do Tesouro Direto.</p>
-          </div>
-        </Section>
+                <h4><BookOpen className="td-icon" /> Referências e documentação</h4>
+                <p>
+                Para legislação, regras e documentos oficiais, consulte o site do Tesouro Direto. É recomendado ler guias de investimento e materiais educativos oferecidos por corretoras confiáveis.
+                </p>
+
+            </div>
+            </Section>
 
         {/* FAQ */}
         <Section title="Perguntas frequentes">
