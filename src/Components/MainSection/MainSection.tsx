@@ -54,7 +54,7 @@ const MainSection: React.FC<MainSectionProps> = ({
   etfs,
   stocks,
   searchTerm,
-  infoDoDia = [], // valor padrão vazio
+  infoDoDia = [], 
 }) => {
   const filtro = (lista: Item[]) =>
     lista.filter((item) =>

@@ -30,10 +30,8 @@ export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
 
   const handleLogoClick = () => {
     if (location.pathname === "/") {
-      // Se já está na home → só rola pra cima
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // Se está em outra página → navega pra home
       navigate("/");
     }
   };
@@ -71,7 +69,10 @@ export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
           Como Investir
         </a>
         <div className="auth-buttons">
+          <a href="/login">
           <button type="button">Cadastrar-se</button>
+          </a>
+  
           <button type="button">Entrar</button>
         </div>
       </nav>
