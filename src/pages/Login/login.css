@@ -1,0 +1,180 @@
+/* Container principal ocupa toda a tela */
+.login-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+
+/* Lado esquerdo: imagem ocupa metade da tela */
+.login-left {
+  width: 50vw;
+  height: 100vh;
+}
+.login-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Lado direito */
+.login-right {
+  flex: 1;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  padding: 2rem;
+  position: relative; 
+  animation: fadeIn 1s ease-in;
+  overflow: hidden;
+}
+
+/* Breadcrumb */
+.rf-breadcrumb {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.05rem;
+  color: #666;
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.rf-breadcrumb-link {
+  text-decoration: none;
+}
+
+.rf-breadcrumb-separator {
+  color: #999;
+}
+
+.rf-breadcrumb-current {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Header com ícone e texto */
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  text-align: center; 
+  gap: 0.5rem; 
+  margin: 0; 
+}
+
+.login-icon {
+  font-size: 3rem;
+  color: #4cafef;
+}
+
+/* Formulário */
+.login-form {
+  width: 100%;
+  max-width: 450px;
+  margin-top: 1.5rem; 
+}
+
+/* Inputs com ícones */
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 3.5rem;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  outline: none;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #4cafef;
+  box-shadow: 0 5px 15px rgba(76, 175, 239, 0.4);
+  background-color: #fff;
+}
+
+.input-group input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.input-group input:focus::placeholder {
+  color: #888;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Grupo de senha */
+.senha-group {
+  position: relative;
+}
+
+.senha-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.senha-toggle:hover {
+  color: #4cafef;
+}
+
+/* Mensagem de erro */
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/* Botão */
+.btn-login {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(45deg, #4cafef, #1976d2);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.btn-login:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(45deg, #1976d2, #4cafef);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

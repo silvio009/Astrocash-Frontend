@@ -5,7 +5,9 @@ import './App.css';
 import Home from './pages/Home';
 import RendaFixa from "./pages/RendaFixa/RendaFixa";
 import TesouroDireto from './pages/TesouroDireto/TesouroDireto';
-import Login from "./pages/Login/Login"
+import Cadastro from "./pages/Cadastro/Cadastro";
+import Login from './pages/Login/login';
+
 
 function App() {
   return (
@@ -14,7 +16,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/renda_fixa" element={<RendaFixa />} />
         <Route path="/tesouro_direto" element={<TesouroDireto />} />
-        <Route path='/login' element={<Login/>}/>
+        <Route path="/Cadastrar-se" element={<Cadastro />} />
+        <Route path="/Login" element={<Login/>} />
       </Routes>
     </BrowserRouter>
   );

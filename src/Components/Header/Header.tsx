@@ -69,11 +69,13 @@ export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
           Como Investir
         </a>
         <div className="auth-buttons">
-          <a href="/login">
+          <a href="/Cadastrar-se">
           <button type="button">Cadastrar-se</button>
           </a>
   
+          <a href="/Login">
           <button type="button">Entrar</button>
+          </a>
         </div>
       </nav>
 
