@@ -32,14 +32,14 @@ export default function Login() {
 
       {/* Lado Direito */}
       <div className="login-right">
-        <nav className="rf-breadcrumb">
-          <Link to="/" className="rf-breadcrumb-link">Home</Link>
-          <span className="rf-breadcrumb-separator">›</span>
-          <span className="rf-breadcrumb-current">Login</span>
+        <nav className="login-breadcrumb">
+          <Link to="/" className="login-breadcrumb-link">Home</Link>
+          <span className="login-breadcrumb-separator">›</span>
+          <span className="login-breadcrumb-current">Login</span>
         </nav>
 
         <div className="login-header">
-          <div className="header-icon-text">
+          <div className="login-header-icon-text">
             <FaEnvelope className="login-icon" />
             <div>
               <h2>Bem-vindo de volta! 🚀</h2>
@@ -49,8 +49,8 @@ export default function Login() {
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
-          <div className="input-group">
-            <FaEnvelope className="input-icon" />
+          <div className="login-input-group">
+            <FaEnvelope className="login-input-icon" />
             <input
               type="email"
               name="emailLogin"
@@ -61,8 +61,8 @@ export default function Login() {
             />
           </div>
 
-          <div className="input-group senha-group">
-            <FaLock className="input-icon" />
+          <div className="login-input-group login-senha-group">
+            <FaLock className="login-input-icon" />
             <input
               type={mostrarSenha ? "text" : "password"}
               name="senhaLogin"
@@ -72,16 +72,16 @@ export default function Login() {
               required
             />
             <span
-              className="senha-toggle"
+              className="login-senha-toggle"
               onClick={() => setMostrarSenha(!mostrarSenha)}
             >
               {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
 
-          {mensagemErro && <p className="error-message">{mensagemErro}</p>}
+          {mensagemErro && <p className="login-error-message">{mensagemErro}</p>}
 
-          <button type="submit" className="btn-login">Entrar</button>
+          <button type="submit" className="login-btn">Entrar</button>
         </form>
       </div>
     </div>

@@ -13,6 +13,27 @@ export default function CadastroFinal() {
     cadastroRepetirSenha: "",
   });
 
+  // Verifica senha
+
+  const [mostrarRequisitos, setMostrarRequisitos] = useState(false);
+
+  const [requisitosSenha, setRequisitosSenha] = useState({
+    comprimento: false,
+    maiuscula: false,
+    minuscula: false,
+    numero: false,
+    especial: false,
+  });
+  const verificarRequisitos = (senha: string) => {
+  setRequisitosSenha({
+    comprimento: senha.length >= 8,
+    maiuscula: /[A-Z]/.test(senha),
+    minuscula: /[a-z]/.test(senha),
+    numero: /\d/.test(senha),
+    especial: /[@$!%*?&]/.test(senha),
+  });
+};
+  // mostra senha
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarRepetirSenha, setMostrarRepetirSenha] = useState(false);
   const [erroCadastro, setErroCadastro] = useState("");
@@ -106,7 +127,15 @@ export default function CadastroFinal() {
               name="cadastroSenha"
               placeholder="Senha"
               value={dadosCadastro.cadastroSenha}
-              onChange={handleCadastroChange}
+              onChange={(e) => {
+                handleCadastroChange(e);
+                if (e.target.name === "cadastroSenha") {
+                  verificarRequisitos(e.target.value);
+                }
+              }}
+
+               onFocus={() => setMostrarRequisitos(true)} 
+               onBlur={() => setMostrarRequisitos(false)}  
               required
             />
             <span
@@ -116,6 +145,19 @@ export default function CadastroFinal() {
               {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
+
+          {mostrarRequisitos && (
+            <div className="cadastro-password-popup">
+              <p className={requisitosSenha.comprimento ? "ok" : "erro"}>• Pelo menos 8 dígitos</p>
+              <p className={requisitosSenha.maiuscula ? "ok" : "erro"}>• 1 letra maiúscula</p>
+              <p className={requisitosSenha.minuscula ? "ok" : "erro"}>• 1 letra minúscula</p>
+              <p className={requisitosSenha.numero ? "ok" : "erro"}>• 1 número</p>
+              <p className={requisitosSenha.especial ? "ok" : "erro"}>• 1 caractere especial (@$!%*?&)</p>
+            </div>
+          )}
+
+
+          
 
           <div className="cadastro-input-group cadastro-senha-group">
             <FaLock className="cadastro-input-icon" />
