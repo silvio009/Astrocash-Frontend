@@ -7,6 +7,7 @@ import RendaFixa from "./pages/RendaFixa/RendaFixa";
 import TesouroDireto from './pages/TesouroDireto/TesouroDireto';
 import Cadastro from "./pages/Cadastro/Cadastro";
 import Login from './pages/Login/login';
+import BolsaAmericana from './pages/BolsaAmerica/BolsaAmericana' 
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/tesouro_direto" element={<TesouroDireto />} />
         <Route path="/Cadastrar-se" element={<Cadastro />} />
         <Route path="/Login" element={<Login/>} />
+        <Route path="/acoes_eua" element={<BolsaAmericana/>} />
       </Routes>
     </BrowserRouter>
   );
