@@ -10,7 +10,7 @@ const AprendaInvestir = () => {
     {
       titulo: "Diferença entre Ações e ETFs",
       descricao: "Entenda as principais diferenças e saiba onde investir.",
-      link: "/acoes_vs_etfs"
+      link: "/acoes_etfs"
     },
     {
       titulo: "Como funciona o Tesouro Direto?",

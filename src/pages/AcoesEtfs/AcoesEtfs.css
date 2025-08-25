@@ -1,0 +1,511 @@
+/* Container base */
+.acoes-container {
+  font-family: 'Inter', sans-serif;
+  color: #1f1f1f;
+  line-height: 1.6;
+}
+
+.acoes-hero-card-body {
+  color: #000;
+}
+
+/* Section base */
+.acoes-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.acoes-section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.acoes-section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.acoes-section-subtitle {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Hero */
+.acoes-hero {
+  position: relative;
+  color: white;
+  margin-top: 0;
+}
+
+.acoes-hero-bg img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+/* Hero grid */
+.acoes-hero-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 0;
+}
+
+.acoes-hero-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.acoes-hero-text {
+  flex: 1 1 500px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.acoes-hero-text h1,
+.acoes-hero-text p {
+  margin: 0 0 15px 0;
+}
+
+/* Estatísticas */
+.acoes-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.acoes-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: #1f1f1f;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.acoes-stat-icon {
+  font-size: 1.5rem;
+  color: #0070f3; /* azul destaque */
+}
+
+.acoes-stat-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.acoes-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Cards base */
+.acoes-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.acoes-card-body {
+  padding: 20px;
+}
+
+.acoes-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.acoes-card-footer {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.acoes-img-card {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Grid expandido O que é */
+.acoes-grid-2-expanded {
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+}
+
+.acoes-prose-expanded {
+  flex: 1 1 550px;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.acoes-img-card-expanded {
+  width: 100%;          
+  max-width: 500px;     
+  max-height: 500px;       
+  object-fit: cover;    
+  border-radius: 12px;  
+  display: block;      
+  margin: 0 auto;      
+}
+
+/* Alertas */
+.acoes-alert {
+  background: #fff3cd;
+  color: #856404;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.acoes-alert-icon {
+  font-size: 1.5rem;
+  color: #856404;
+}
+
+.acoes-alert p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.acoes-alert p strong {
+  font-weight: 700;
+}
+
+/* Imagem abaixo do alert */
+.acoes-alert-image {
+  margin-top: 15px;
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* FAQ */
+.acoes-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.acoes-faq-item {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+}
+
+.acoes-faq-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.acoes-faq-icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  color: #0070f3; /* azul destaque */
+}
+
+.acoes-faq-answer p {
+  margin-top: 12px;
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Breadcrumb */
+.acoes-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  margin: 120px 24px 32px;
+  color: #444;
+}
+
+.acoes-breadcrumb-link,
+.acoes-breadcrumb-current {
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.acoes-breadcrumb-link {
+  text-decoration: none;
+  color: #444;
+}
+
+.acoes-breadcrumb-link:hover {
+  color: #000;
+  transform: translateY(-2px);
+}
+
+.acoes-breadcrumb-current {
+  font-weight: 600;
+  color: #222;
+}
+
+.acoes-breadcrumb-current:hover {
+  transform: scale(1.05);
+}
+
+.acoes-breadcrumb-separator {
+  color: #666;
+}
+
+/* Tipos de títulos */
+.acoes-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.acoes-type {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.acoes-type-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acoes-type-icon {
+  font-size: 1.5rem;
+  color: #0070f3; /* azul destaque */
+}
+
+.acoes-type-sub {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.acoes-type-badge {
+  background: #e0f0ff;
+  color: #0070f3;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+/* PASSO A PASSO DETALHADO */
+.acoes-passo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.acoes-passo-item {
+  background: #f7f9fc;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.acoes-passo-item:hover {
+  transform: translateY(-3px);
+}
+
+.acoes-passo-item h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.acoes-passo-item p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Onde investir - força 3 colunas */
+.acoes-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Prose da seção corretoras */
+.acoes-prose h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.acoes-prose ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.acoes-prose p {
+  margin-bottom: 15px;
+}
+
+/* Prose enhanced */
+.acoes-prose-enhanced {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.7;
+  color: #1f1f1f;
+  margin-top: 2rem;
+}
+
+.acoes-prose-enhanced h4 {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  color: #222;
+}
+
+.acoes-prose-enhanced .acoes-icon {
+  margin-right: 0.6rem;
+  color: #0070f3;
+  width: 20px;
+  height: 20px;
+}
+
+.acoes-prose-enhanced p {
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #333;
+}
+
+.acoes-prose-enhanced ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.acoes-prose-enhanced li {
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.acoes-prose-enhanced li::before {
+  content: "•"; 
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+}
+
+/* Dividendos e Crescimento */
+.acoes-dividendos, .acoes-crescimento {
+  margin-top: 20px;
+}
+
+.img_dividendo,
+.img_crescimento {
+  width: 450px;   
+  height: auto;  
+  margin-bottom: 10px; 
+  border-radius: 15px;
+}
+
+
+
+
+
+
+.acoes-resumo-card {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+.acoes-alert-large {
+  margin-top: 20px;
+  padding: 20px 25px;
+  border-radius: 10px;
+  background: #fff3cd;
+}
+
+.acoes-tops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.acoes-top-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.acoes-top-card h4 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.acoes-top-card ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.acoes-top-card li {
+  margin-bottom: 6px;
+}
+
+.acoes-top-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+  color: #0070f3;
+}
+
+
