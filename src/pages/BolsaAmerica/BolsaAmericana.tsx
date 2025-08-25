@@ -20,6 +20,8 @@ import Footer from "../../components/Footer/FooterSection";
 import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 import "./bolsaAmericana.css";
 
+import dividendos from "../../assets/dividendos.png"
+import AcoesCresimento from "../../assets/AcoesCrescimento.png"
 import BolsaAmericanaImg from "../../assets/stock.jpg";
 
 const Section = ({ id, title, subtitle, children }: { id?: string; title?: string; subtitle?: string; children: React.ReactNode }) => (
@@ -164,19 +166,19 @@ export default function BolsaAmericana() {
         <Section title="Dividendos e ações de crescimento">
           <div className="american-prose-enhanced">
             <div className="american-dividendos">
-              <img src="https://images.unsplash.com/photo-1615550336221-9457888b2ef6?q=80&w=1200&auto=format&fit=crop" alt="Dividendos" />
               <h4><Coins className="american-icon" /> Ações pagadoras de dividendos</h4>
               <p>
                 Dividendos são pagamentos periódicos feitos aos acionistas a partir do lucro da empresa. Empresas maduras costumam distribuir dividendos regularmente, podendo ser <strong>mensal, trimestral ou anual</strong>. Exemplos incluem empresas de energia, bancos e grandes conglomerados americanos. Dividendos geram <strong>renda passiva</strong> e estabilidade, mas estão sujeitos à tributação. Avalie o histórico e a saúde financeira antes de investir.
               </p>
+              <img  className="img_dividendo" src={dividendos} alt="Dividendos" />
             </div>
 
             <div className="american-crescimento">
-              <img src="https://images.unsplash.com/photo-1600140454795-3e8634e5b5f1?q=80&w=1200&auto=format&fit=crop" alt="Ações de crescimento" />
               <h4><TrendingUp className="american-icon" /> Ações de crescimento</h4>
               <p>
                 Ações de crescimento pertencem a empresas que reinvestem lucros para expandir operações. Geralmente não pagam dividendos, mas oferecem potencial de valorização do preço da ação a longo prazo. Exemplos incluem empresas de tecnologia, startups e setores em expansão. Investidores focam na valorização do capital, mas devem estar cientes da volatilidade e risco de mercado.
               </p>
+              <img  className="img_Crescimento"src={AcoesCresimento} alt="Ações de crescimento" />
             </div>
           </div>
         </Section>

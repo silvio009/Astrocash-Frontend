@@ -450,8 +450,11 @@
   margin-top: 20px;
 }
 
-.american-dividendos img, .american-crescimento img {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 12px;
+.img_dividendo,
+.img_Crescimento {
+  width: 450px;   
+  height: auto;  
+  margin-bottom: 10px; 
+  border-radius: 15px;
 }
+
