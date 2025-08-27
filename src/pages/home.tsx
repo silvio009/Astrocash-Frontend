@@ -4,6 +4,7 @@ import {
   fetchCryptos,
   fetchCurrencies,
   fetchMarketNews,
+  fetchBrazilStocks,
 } from "../api";
 
 import Header from "../Components/Header/Header";
@@ -14,8 +15,6 @@ import Footer from "../Components/Footer/FooterSection";
 import AprendaInvestir from "../Components/AprendaInvestir/AprendaInvestir";
 import Rondo from "../Components/Rondo/Rondo";
 import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
-
-
 
 interface NewsItem {
   title: string;
@@ -34,15 +33,17 @@ export default function Home() {
     { nome: string; valor: string; variacao: string }[]
   >([]);
   const [infoDoDia, setInfoDoDia] = useState<NewsItem[]>([]);
+  const [acoesBR, setAcoesBR] = useState<
+    { nome: string; preco: string; variacao: string }[]
+  >([]);
 
   useEffect(() => {
     async function loadData() {
       const today = new Date().toISOString().slice(0, 10);
 
-      // Criptomoedas
+      // --- Criptomoedas ---
       const cryptoCache = localStorage.getItem("cryptoCache");
       const cryptoCacheDate = localStorage.getItem("cryptoCacheDate");
-
       if (cryptoCache && cryptoCacheDate === today) {
         setCriptomoedas(JSON.parse(cryptoCache));
       } else {
@@ -56,10 +57,9 @@ export default function Home() {
         }
       }
 
-      // Moedas
+      // --- Moedas ---
       const currencyCache = localStorage.getItem("currencyCache");
       const currencyCacheDate = localStorage.getItem("currencyCacheDate");
-
       if (currencyCache && currencyCacheDate === today) {
         setPequenosCards(JSON.parse(currencyCache));
       } else {
@@ -73,10 +73,9 @@ export default function Home() {
         }
       }
 
-      // Notícias
+      // --- Notícias ---
       const newsCache = localStorage.getItem("newsCache");
       const newsCacheDate = localStorage.getItem("newsCacheDate");
-
       if (newsCache && newsCacheDate === today) {
         setInfoDoDia(JSON.parse(newsCache));
       } else {
@@ -95,16 +94,14 @@ export default function Home() {
           ]);
         }
       }
+
+      // --- Ações brasileiras ---
+      const stocksBR = await fetchBrazilStocks(); 
+      setAcoesBR(stocksBR);
     }
 
     loadData();
   }, []);
-
-  const acoes = [
-    { nome: "Petrobras", preco: "R$ 30,00", variacao: "+1%" },
-    { nome: "Vale", preco: "R$ 60,00", variacao: "-0.5%" },
-    { nome: "Itaú", preco: "R$ 28,00", variacao: "+0.3%" },
-  ];
 
   const etfs = [
     { nome: "IVVB11", preco: "R$ 110", variacao: "+0.3%" },
@@ -132,12 +129,11 @@ export default function Home() {
         />
         <MainSection
           criptomoedas={criptomoedas}
-          acoes={acoes}
+          acoes={acoesBR} // nomes já limitados a 3 palavras
           etfs={etfs}
           stocks={stocks}
           searchTerm={searchTerm}
           infoDoDia={infoDoDia}
-          
         />
       </div>
 
