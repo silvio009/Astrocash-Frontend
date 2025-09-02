@@ -6,6 +6,7 @@ import {
   fetchMarketNews,
   fetchBrazilStocks,
   fetchETFs,
+  fetchStocks
 } from "../api";
 
 import Header from "../Components/Header/Header";
@@ -16,6 +17,7 @@ import Footer from "../Components/Footer/FooterSection";
 import AprendaInvestir from "../Components/AprendaInvestir/AprendaInvestir";
 import Rondo from "../Components/Rondo/Rondo";
 import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
+import { Await } from "react-router-dom";
 
 interface NewsItem {
   title: string;
@@ -38,6 +40,9 @@ export default function Home() {
     { nome: string; preco: string; variacao: string }[]
   >([]);
   const [etfs, setEtfs] = useState<
+    { nome: string; preco: string; variacao: string }[]
+  >([]);
+  const [stock, setStocks] = useState<
     { nome: string; preco: string; variacao: string }[]
   >([]);
 
@@ -106,15 +111,15 @@ export default function Home() {
       // --- ETFs ---
       const etfsData = await fetchETFs();
       setEtfs(etfsData);
+
+      // ---Stock ---
+      const fetchStock = await fetchStocks();
+      setStocks(fetchStock);
+
     }
 
     loadData();
   }, []);
-
-  const stocks = [
-    { nome: "Apple", preco: "$145", variacao: "+1.2%" },
-    { nome: "Google", preco: "$2.500", variacao: "+0.8%" },
-  ];
 
   return (
     <>
@@ -134,7 +139,7 @@ export default function Home() {
           criptomoedas={criptomoedas}
           acoes={acoesBR}
           etfs={etfs}
-          stocks={stocks}
+          stocks={stock}
           searchTerm={searchTerm}
           infoDoDia={infoDoDia}
         />
