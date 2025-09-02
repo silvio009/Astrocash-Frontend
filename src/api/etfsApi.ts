@@ -1,36 +1,63 @@
+// src/api.ts
 import axios from "axios";
 
-const BASE_URL = "https://brapi.dev/api";
+const ALPHA_BASE_URL = "https://www.alphavantage.co/query";
+const CACHE_KEY_ETF = "etfCache";
 
-export async function fetchEtfs() {
+export async function fetchETFs() {
+  const today = new Date().toISOString().slice(0, 10);
+  const cachedDataString = localStorage.getItem(CACHE_KEY_ETF);
+
+  if (cachedDataString) {
+    const cached = JSON.parse(cachedDataString);
+    if (cached.date === today) {
+      console.log("🔁 Usando cache de ETFs:", cached.data);
+      return cached.data;
+    }
+  }
+
   try {
-    const response = await axios.get(`${BASE_URL}/etf/list`, {
-      params: {
-        sortBy: "market_cap",
-        sortOrder: "desc",
-        limit: 5,
-      },
-    });
+    const symbols = ["SPY", "QQQ", "VTI", "DIA", "IWM"]; 
+    const apiKey = import.meta.env.VITE_ALPHA_VANTAGE_API_KEY;
+    const results: { nome: string; preco: string; variacao: string }[] = [];
 
-    // Pega os ETFs do campo que existir
-    const etfs = response.data.etfs ?? response.data.results ?? [];
+    for (const symbol of symbols) {
+      const response = await axios.get(ALPHA_BASE_URL, {
+        params: {
+          function: "TIME_SERIES_DAILY",
+          symbol,
+          apikey: apiKey,
+        },
+      });
 
-    console.log("ETFs recebidos:", etfs);
+      const timeSeries = response.data["Time Series (Daily)"];
+      if (!timeSeries) continue;
 
-    if (!etfs.length) {
-      console.warn("ATENÇÃO: lista de ETFs está vazia.");
+      const lastDate = Object.keys(timeSeries)[0];
+      const prevDate = Object.keys(timeSeries)[1];
+
+      const lastClose = parseFloat(timeSeries[lastDate]["4. close"]);
+      const prevClose = parseFloat(timeSeries[prevDate]["4. close"]);
+
+      const variacao = (((lastClose - prevClose) / prevClose) * 100).toFixed(2);
+
+      results.push({
+        nome: symbol,
+        preco: `$${lastClose.toFixed(2)}`,
+        variacao: `${variacao}%`,
+      });
     }
 
-    return etfs.map((item: any) => ({
-      nome: item.name || item.symbol || "Nome indisponível",
-      preco: item.close ? `R$ ${item.close.toLocaleString("pt-BR")}` : "R$ 0",
-      variacao:
-        item.change_percent !== null && item.change_percent !== undefined
-          ? `${item.change_percent.toFixed(2)}%`
-          : "0%",
-    }));
+    localStorage.setItem(
+      CACHE_KEY_ETF,
+      JSON.stringify({ date: today, data: results })
+    );
+
+    console.log("📡 Dados recebidos da API (ETFs):", results);
+
+    return results;
   } catch (error) {
-    console.error("Erro ao buscar ETFs:", error);
+    console.error("❌ Erro ao buscar ETFs:", error);
     return [];
   }
 }

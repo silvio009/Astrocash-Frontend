@@ -5,6 +5,7 @@ import {
   fetchCurrencies,
   fetchMarketNews,
   fetchBrazilStocks,
+  fetchETFs,
 } from "../api";
 
 import Header from "../Components/Header/Header";
@@ -34,6 +35,9 @@ export default function Home() {
   >([]);
   const [infoDoDia, setInfoDoDia] = useState<NewsItem[]>([]);
   const [acoesBR, setAcoesBR] = useState<
+    { nome: string; preco: string; variacao: string }[]
+  >([]);
+  const [etfs, setEtfs] = useState<
     { nome: string; preco: string; variacao: string }[]
   >([]);
 
@@ -96,17 +100,16 @@ export default function Home() {
       }
 
       // --- Ações brasileiras ---
-      const stocksBR = await fetchBrazilStocks(); 
+      const stocksBR = await fetchBrazilStocks();
       setAcoesBR(stocksBR);
+
+      // --- ETFs ---
+      const etfsData = await fetchETFs();
+      setEtfs(etfsData);
     }
 
     loadData();
   }, []);
-
-  const etfs = [
-    { nome: "IVVB11", preco: "R$ 110", variacao: "+0.3%" },
-    { nome: "BOVA11", preco: "R$ 90", variacao: "-1%" },
-  ];
 
   const stocks = [
     { nome: "Apple", preco: "$145", variacao: "+1.2%" },
@@ -129,7 +132,7 @@ export default function Home() {
         />
         <MainSection
           criptomoedas={criptomoedas}
-          acoes={acoesBR} // nomes já limitados a 3 palavras
+          acoes={acoesBR}
           etfs={etfs}
           stocks={stocks}
           searchTerm={searchTerm}
