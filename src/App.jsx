@@ -10,7 +10,8 @@ import Login from './pages/Login/login';
 import BolsaAmericana from './pages/BolsaAmerica/BolsaAmericana'
 import AcoesETFs from './pages/AcoesEtfs/AcoesEtfs';
 import ReservaEmergencia from './pages/ReservaEmergencial/ReservaEmergencia';
-import FundosImobiliarios from './pages/FundosImobiliarios/fundosImobiliarios'; 
+import FundosImobiliarios from './pages/FundosImobiliarios/fundosImobiliarios';
+import Converter from './pages/Converter/converter'; 
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
         <Route path="/acoes_etfs" element={<AcoesETFs/>} />
         <Route path="/reserva_emergencia" element={<ReservaEmergencia/>} />
         <Route path="/fundos_imobiliarios" element={<FundosImobiliarios/>} />
+        <Route path="/converter" element={<Converter/>} />
+
 
 
       </Routes>
