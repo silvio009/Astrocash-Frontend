@@ -47,22 +47,52 @@ export default function CadastroFinal() {
     return regex.test(senha);
   };
 
-  const handleCadastroSubmit = (e: React.FormEvent) => {
+    const handleCadastroSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // validação da senha
     if (!validarSenha(dadosCadastro.cadastroSenha)) {
       setErroCadastro(
         "A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial."
       );
       return;
     }
+
     if (dadosCadastro.cadastroSenha !== dadosCadastro.cadastroRepetirSenha) {
       setErroCadastro("As senhas não coincidem.");
       return;
     }
+
     setErroCadastro("");
-    alert("Cadastro realizado com sucesso! 🚀");
-    // integração com backend
+
+    try {
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nome: dadosCadastro.cadastroNome,
+          email: dadosCadastro.cadastroEmail,
+          cpf: dadosCadastro.cadastroCPF,
+          senha: dadosCadastro.cadastroSenha,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Erro ao cadastrar usuário.");
+      }
+
+      alert("Cadastro realizado com sucesso! 🚀");
+      // opcional: redirecionar para login
+      // navigate("/login");
+
+    } catch (error: any) {
+      setErroCadastro(error.message || "Erro ao conectar com o servidor.");
+    }
   };
+
 
   return (
     <div className="cadastro-container">
