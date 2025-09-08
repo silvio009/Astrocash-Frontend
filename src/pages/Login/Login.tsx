@@ -13,15 +13,47 @@ export default function Login() {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!loginData.emailLogin || !loginData.senhaLogin) {
-      setMensagemErro("Por favor, preencha todos os campos.");
-      return;
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!loginData.emailLogin || !loginData.senhaLogin) {
+    setMensagemErro("Por favor, preencha todos os campos.");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:8080/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: loginData.emailLogin,
+        senha: loginData.senhaLogin,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Credenciais inválidas.");
     }
+
+    const data = await response.json();
+
+    // salva o token JWT no localStorage
+    localStorage.setItem("token", data.token);
+
     setMensagemErro("");
     alert("Login realizado com sucesso! 🚀");
-  };
+
+    // COLOCAR QUANDO TIVER A PAGINA
+    // se quiser redirecionar
+    // navigate("/dashboard");
+
+  } catch (error: any) {
+    setMensagemErro(error.message || "Erro ao conectar com o servidor.");
+  }
+};
 
   return (
     <div className="login-container">
