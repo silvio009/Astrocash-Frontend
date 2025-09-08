@@ -131,16 +131,6 @@ const Rondo: React.FC = () => {
           </h3>
         </div>
       )}
-
-      <p className="texto-conversor">
-        Quer um cálculo mais detalhado?
-      </p>
-      <button
-        className="rondo-converter"
-        onClick={() => navigate("/converter")}
-      >
-        Converter
-      </button>
     </div>
   );
 };
