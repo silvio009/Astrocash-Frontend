@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -20,7 +20,9 @@ import {
   Layers
 } from "lucide-react";
 
+import { AuthContext } from "../../contexts/AuthContext";
 import Header from "../../components/Header/Header";
+import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
 import Footer from "../../components/Footer/FooterSection";
 import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 import "./fundosimobiliarios.css";
@@ -52,6 +54,8 @@ const StatEye = ({ icon: Icon, label, value }: { icon: any; label: string; value
 
 export default function FundosImobiliarios() {
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
+
+  const { isLogged } = useContext(AuthContext);
 
   // ======= FAQ =======
   const faqList = [
@@ -141,7 +145,12 @@ export default function FundosImobiliarios() {
 
   return (
     <div className="fundos-container">
-      <Header toggleMenu={() => {}} menuOpen={false} />
+      {/* Aqui escolhe qual Header mostrar */}
+      {isLogged ? (
+        <HeaderLogged toggleMenu={() => {}} menuOpen={false} />
+      ) : (
+        <Header toggleMenu={() => {}} menuOpen={false} />
+      )}
 
       <nav className="fundos-breadcrumb">
         <Link to="/" className="fundos-breadcrumb-link">Home</Link>

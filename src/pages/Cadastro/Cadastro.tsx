@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./Cadastro.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaIdCard, FaEye, FaEyeSlash } from "react-icons/fa";
 import logoCadastro from "../../assets/logo_login.jpg";
 
 export default function CadastroFinal() {
+  const navigate = useNavigate(); // para redirecionamento
   const [dadosCadastro, setDadosCadastro] = useState({
     cadastroNome: "",
     cadastroEmail: "",
@@ -13,10 +14,7 @@ export default function CadastroFinal() {
     cadastroRepetirSenha: "",
   });
 
-  // Verifica senha
-
   const [mostrarRequisitos, setMostrarRequisitos] = useState(false);
-
   const [requisitosSenha, setRequisitosSenha] = useState({
     comprimento: false,
     maiuscula: false,
@@ -24,16 +22,6 @@ export default function CadastroFinal() {
     numero: false,
     especial: false,
   });
-  const verificarRequisitos = (senha: string) => {
-  setRequisitosSenha({
-    comprimento: senha.length >= 8,
-    maiuscula: /[A-Z]/.test(senha),
-    minuscula: /[a-z]/.test(senha),
-    numero: /\d/.test(senha),
-    especial: /[@$!%*?&]/.test(senha),
-  });
-};
-  // mostra senha
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarRepetirSenha, setMostrarRepetirSenha] = useState(false);
   const [erroCadastro, setErroCadastro] = useState("");
@@ -42,12 +30,22 @@ export default function CadastroFinal() {
     setDadosCadastro({ ...dadosCadastro, [e.target.name]: e.target.value });
   };
 
+  const verificarRequisitos = (senha: string) => {
+    setRequisitosSenha({
+      comprimento: senha.length >= 8,
+      maiuscula: /[A-Z]/.test(senha),
+      minuscula: /[a-z]/.test(senha),
+      numero: /\d/.test(senha),
+      especial: /[@$!%*?&]/.test(senha),
+    });
+  };
+
   const validarSenha = (senha: string) => {
     const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(senha);
   };
 
-    const handleCadastroSubmit = async (e: React.FormEvent) => {
+  const handleCadastroSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // validação da senha
@@ -68,9 +66,7 @@ export default function CadastroFinal() {
     try {
       const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: dadosCadastro.cadastroNome,
           email: dadosCadastro.cadastroEmail,
@@ -84,15 +80,18 @@ export default function CadastroFinal() {
         throw new Error(errorText || "Erro ao cadastrar usuário.");
       }
 
-      alert("Cadastro realizado com sucesso! 🚀");
-      // opcional: redirecionar para login
-      // navigate("/login");
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem("token", data.token); 
+      }
+
+      setErroCadastro(""); // limpa mensagens de erro
+      navigate("/");
 
     } catch (error: any) {
       setErroCadastro(error.message || "Erro ao conectar com o servidor.");
     }
   };
-
 
   return (
     <div className="cadastro-container">
@@ -114,6 +113,7 @@ export default function CadastroFinal() {
         </div>
 
         <form onSubmit={handleCadastroSubmit} className="cadastro-form">
+          {/* Inputs */}
           <div className="cadastro-input-group">
             <FaUser className="cadastro-input-icon" />
             <input
@@ -159,13 +159,10 @@ export default function CadastroFinal() {
               value={dadosCadastro.cadastroSenha}
               onChange={(e) => {
                 handleCadastroChange(e);
-                if (e.target.name === "cadastroSenha") {
-                  verificarRequisitos(e.target.value);
-                }
+                verificarRequisitos(e.target.value);
               }}
-
-               onFocus={() => setMostrarRequisitos(true)} 
-               onBlur={() => setMostrarRequisitos(false)}  
+              onFocus={() => setMostrarRequisitos(true)}
+              onBlur={() => setMostrarRequisitos(false)}
               required
             />
             <span
@@ -185,9 +182,6 @@ export default function CadastroFinal() {
               <p className={requisitosSenha.especial ? "ok" : "erro"}>• 1 caractere especial (@$!%*?&)</p>
             </div>
           )}
-
-
-          
 
           <div className="cadastro-input-group cadastro-senha-group">
             <FaLock className="cadastro-input-icon" />

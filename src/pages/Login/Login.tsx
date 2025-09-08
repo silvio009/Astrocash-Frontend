@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import logo_login from "../../assets/logo_login.jpg";
 
@@ -8,52 +8,52 @@ export default function Login() {
   const [loginData, setLoginData] = useState({ emailLogin: "", senhaLogin: "" });
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mensagemErro, setMensagemErro] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (!loginData.emailLogin || !loginData.senhaLogin) {
-    setMensagemErro("Por favor, preencha todos os campos.");
-    return;
-  }
-
-  try {
-    const response = await fetch("http://localhost:8080/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: loginData.emailLogin,
-        senha: loginData.senhaLogin,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || "Credenciais inválidas.");
+    if (!loginData.emailLogin || !loginData.senhaLogin) {
+      setMensagemErro("Por favor, preencha todos os campos.");
+      return;
     }
 
-    const data = await response.json();
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginData.emailLogin,
+          senha: loginData.senhaLogin,
+        }),
+      });
 
-    // salva o token JWT no localStorage
-    localStorage.setItem("token", data.token);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Credenciais inválidas.");
+      }
 
-    setMensagemErro("");
-    alert("Login realizado com sucesso! 🚀");
+      const data = await response.json();
 
-    // COLOCAR QUANDO TIVER A PAGINA
-    // se quiser redirecionar
-    // navigate("/dashboard");
+      // salva o token JWT no localStorage
+      localStorage.setItem("token", data.token);
 
-  } catch (error: any) {
-    setMensagemErro(error.message || "Erro ao conectar com o servidor.");
-  }
-};
+      // limpa mensagem de erro
+      setMensagemErro("");
+
+      // redireciona para Home imediatamente
+      navigate("/");
+
+    } catch (error: any) {
+      setMensagemErro(error.message || "Erro ao conectar com o servidor.");
+    }
+  };
 
   return (
     <div className="login-container">

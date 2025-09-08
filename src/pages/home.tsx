@@ -10,6 +10,7 @@ import {
 } from "../api";
 
 import Header from "../Components/Header/Header";
+import HeaderLogged from "../Components/HeaderLogged/HeaderLogged";
 import Carousel from "../Components/Carousel/Carousel";
 import SearchAndCards from "../Components/Cards/SearchAndCards";
 import MainSection from "../Components/MainSection/MainSection";
@@ -17,7 +18,6 @@ import Footer from "../Components/Footer/FooterSection";
 import AprendaInvestir from "../Components/AprendaInvestir/AprendaInvestir";
 import Rondo from "../Components/Rondo/Rondo";
 import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
-import { Await } from "react-router-dom";
 
 interface NewsItem {
   title: string;
@@ -45,6 +45,22 @@ export default function Home() {
   const [stock, setStocks] = useState<
     { nome: string; preco: string; variacao: string }[]
   >([]);
+
+  // Estado para verificar se o usuário está logado
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token atual no localStorage:", token); 
+    const validToken = token && token !== "undefined" && token !== "null";
+    console.log("Usuário está logado?", validToken); 
+    setIsLogged(!!validToken);
+
+    // Limpar tokens inválidos
+    if (!validToken) {
+      localStorage.removeItem("token");
+    }
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -112,10 +128,9 @@ export default function Home() {
       const etfsData = await fetchETFs();
       setEtfs(etfsData);
 
-      // ---Stock ---
+      // --- Stocks ---
       const fetchStock = await fetchStocks();
       setStocks(fetchStock);
-
     }
 
     loadData();
@@ -123,7 +138,11 @@ export default function Home() {
 
   return (
     <>
-      <Header toggleMenu={toggleMenu} menuOpen={menuOpen} />
+      {isLogged ? (
+        <HeaderLogged toggleMenu={toggleMenu} menuOpen={menuOpen} />
+      ) : (
+        <Header toggleMenu={toggleMenu} menuOpen={menuOpen} />
+      )}
 
       <div className="carousel-wrapper">
         <Carousel />
