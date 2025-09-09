@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../Header/Header.css";
 
 import logoImg from "../../assets/logo_AstroCash.png";
-import { FaUserCircle, FaWallet, FaChartLine, FaCoins, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaWallet, FaCoins, FaCog, FaSignOutAlt } from "react-icons/fa";
 
 interface HeaderProps {
   toggleMenu: () => void;
@@ -20,7 +20,6 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -35,46 +34,49 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setProfileMenuOpen(false); // fecha o menu do perfil
-    navigate("/", { replace: true }); // navega para a home e substitui no histórico
-    window.location.reload(); // garante reset do estado da aplicação
+    setProfileMenuOpen(false);
+    navigate("/", { replace: true });
+    window.location.reload();
   };
 
   return (
     <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
-      <div className="logo">
+      {/* Logo */}
+      <div className="logo-container">
         <img
           src={logoImg}
           alt="AstroCash Logo"
-          style={{ cursor: "pointer" }}
           onClick={handleLogoClick}
         />
       </div>
 
-      <nav className={`menu ${menuOpen ? "active" : ""}`}>
-        <a href="/carteira"><FaWallet /> Minha Carteira</a>
-        <a href="/comprar-ativos"><FaCoins /> Comprar Ativos</a>
+      {/* Menu + Perfil */}
+      <div className="menu-right">
+        <nav className={`menu ${menuOpen ? "active" : ""}`}>
+          <a href="/carteira" className="menu-item"><FaWallet /> Minha Carteira</a>
+          <a href="/comprar-ativos" className="menu-item"><FaCoins /> Comprar Ativos</a>
+        </nav>
+            {/* Perfil */}
+            <div className="profile-container">
+              <button
+                className="profile-icon"
+                onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              >
+                <FaUserCircle size={30} />
+              </button>
+              <span className="tooltip">Perfil</span>
 
-        {/* Ícone do perfil agora fica junto com os outros itens */}
-        <div className="profile-container">
-          <button
-            className="profile-icon"
-            onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-          >
-            <FaUserCircle size={30} />
-          </button>
-
-          <span className="tooltip">Perfil</span> 
-
-          {profileMenuOpen && (
-            <div className="profile-menu">
-              <button onClick={() => navigate("/configuracoes")}><FaCog /> Configurações</button>
-              <button onClick={handleLogout}><FaSignOutAlt /> Sair</button>
+              {profileMenuOpen && (
+                <div className="profile-menu">
+                  <button onClick={() => navigate("/configuracoes")}><FaCog /> Configurações</button>
+                  <button onClick={handleLogout}><FaSignOutAlt /> Sair</button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </nav>
 
+      </div>
+
+      {/* Hamburger */}
       <div className="hamburger" onClick={toggleMenu}>
         <span></span>
         <span></span>

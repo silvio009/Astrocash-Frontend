@@ -1,44 +1,80 @@
-/* Navbar */
+/* Navbar compacta */
 .navbar {
-  height: 85px; 
+  height: 65px; /* altura fixa */
   display: flex;
   justify-content: space-between;
-  align-items: center; 
-  padding: 15px 40px;
-  background-color: rgb(5, 10, 20);
+  align-items: center;
+  padding: 0 20px;
+  background-color: black;
   color: white;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
+  overflow: hidden; 
 }
 
-.logo {
-  font-weight: 700;
-  font-size: 1.5rem;
+/* Container da logo */
+.logo-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 120px; 
 }
 
+.logo-container img {
+  max-height: 300%; 
+  max-width: 160px; 
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo-container img:hover {
+  transform: scale(1.05); 
+}
+
+/* Menu links */
 .menu {
   display: flex;
-  gap: 20px;
   align-items: center;
+  gap: 15px;
 }
 
-/* Botões de login/cadastro */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-3px);
+  color: #fff;
+}
+
+/* Botões auth */
 .auth-buttons {
   display: flex;
-  gap: 12px;
-  margin-left: 20px;
+  gap: 10px;
+  margin-left: 15px;
 }
 
 .auth-buttons button {
   background-color: transparent;
   border: 2px solid white;
   color: white;
-  padding: 6px 14px;
+  padding: 4px 10px;
   border-radius: 6px;
   font-weight: 600;
+  font-size: 17px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -48,19 +84,7 @@
   color: #111827;
 }
 
-/* Links do menu */
-.menu a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.menu a:hover {
-  transform: translateY(-5px); 
-  color: white; /* mantém a cor original ou pode trocar levemente se quiser */
-}
-
+/* Hamburger */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -69,37 +93,32 @@
 }
 
 .hamburger span {
-  width: 25px;
-  height: 3px;
+  width: 20px;
+  height: 2px;
   background: white;
   border-radius: 2px;
 }
 
-.logo {
-  min-width: 180px; 
-  height: 80px;    
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo img {
-  height: 230px;
-  width: auto;
-  cursor: pointer;
-}
 
 .navbar-scrolled {
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px); 
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); 
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
-/*Headerlogged*/
+/* Container menu + perfil */
+.menu-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Ícone do perfil */
 .profile-container {
-  position: relative;
+  position: relative; 
   display: inline-block;
+  z-index: 1000; 
 }
 
 .profile-icon {
@@ -112,22 +131,21 @@
 }
 
 .profile-icon:hover {
-  transform: translateY(-5px); 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .profile-menu {
-  position: absolute;
-  top: 40px;
-  right: 0;
+  position: fixed; 
+  top: calc(65px + 5px); 
+  right: 20px; 
   background: white;
-  text-decoration: none;
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   min-width: 180px;
-  z-index: 999;
+  z-index: 9999; 
 }
 
 .profile-menu button {
@@ -143,22 +161,7 @@
   color: #333;
 }
 
-
-.profile-icon:focus,
-.profile-menu button:focus,
-.menu a:focus,
-.hamburger:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-
-.profile-container {
-  margin-left: 15px; 
-  position: relative;
-  display: inline-block;
-}
-
+/* Tooltip fixo */
 .profile-container .tooltip {
   visibility: hidden;
   background-color: #333; 
@@ -166,18 +169,26 @@
   text-align: center;
   padding: 5px 10px;
   border-radius: 5px;
-  position: absolute;
-  bottom: -35px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed; /* fixo no viewport */
+  top: calc(65px + 5px);
+  right: 20px; /* alinhado ao perfil */
   opacity: 0;
   transition: opacity 0.3s ease;
   white-space: nowrap;
   font-size: 12px;
-  z-index: 10;
+  z-index: 9999;
 }
 
 .profile-container:hover .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+/* Remover outline ao focar */
+.profile-icon:focus,
+.profile-menu button:focus,
+.menu a:focus,
+.hamburger:focus {
+  outline: none;
+  box-shadow: none;
 }

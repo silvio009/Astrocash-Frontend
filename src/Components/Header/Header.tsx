@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../Header/Header.css";
 
 import logoImg from "../../assets/logo_AstroCash.png";
+import { FaRegLightbulb } from "react-icons/fa";
 
 interface HeaderProps {
   toggleMenu: () => void;
@@ -15,16 +16,8 @@ export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -38,11 +31,10 @@ export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
 
   return (
     <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
-      <div className="logo">
+      <div className="logo-container">
         <img
           src={logoImg}
           alt="AstroCash Logo"
-          style={{ cursor: "pointer" }}
           onClick={handleLogoClick}
         />
       </div>
@@ -50,31 +42,27 @@ export default function Header({ toggleMenu, menuOpen }: HeaderProps) {
       <nav className={`menu ${menuOpen ? "active" : ""}`}>
         <a
           href="#aprenda-investir"
+          className="menu-item"
           onClick={(e) => {
             e.preventDefault();
             const section = document.getElementById("aprenda-investir");
             if (section) {
-              const headerOffset = 85;
-              const elementPosition =
-                section.getBoundingClientRect().top + window.scrollY;
+              const headerOffset = 60;
+              const elementPosition = section.getBoundingClientRect().top + window.scrollY;
               const offsetPosition = elementPosition - headerOffset;
-
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth",
-              });
+              window.scrollTo({ top: offsetPosition, behavior: "smooth" });
             }
           }}
         >
           Como Investir
         </a>
+
         <div className="auth-buttons">
           <a href="/Cadastrar-se">
-          <button type="button">Cadastrar-se</button>
+            <button type="button">Cadastrar-se</button>
           </a>
-  
           <a href="/Login">
-          <button type="button">Entrar</button>
+            <button type="button">Entrar</button>
           </a>
         </div>
       </nav>
