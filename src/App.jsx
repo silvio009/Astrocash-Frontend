@@ -12,20 +12,24 @@ import AcoesETFs from './pages/AcoesEtfs/AcoesEtfs';
 import ReservaEmergencia from './pages/ReservaEmergencial/ReservaEmergencia';
 import FundosImobiliarios from './pages/FundosImobiliarios/fundosImobiliarios'; 
 
+import Header from './Components/Header/Header';
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Header />  
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/renda_fixa" element={<RendaFixa />} />
           <Route path="/tesouro_direto" element={<TesouroDireto />} />
           <Route path="/Cadastrar-se" element={<Cadastro />} />
-          <Route path="/Login" element={<Login/>} />
-          <Route path="/acoes_eua" element={<BolsaAmericana/>} />
-          <Route path="/acoes_etfs" element={<AcoesETFs/>} />
-          <Route path="/reserva_emergencia" element={<ReservaEmergencia/>} />
-          <Route path="/fundos_imobiliarios" element={<FundosImobiliarios/>} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/acoes_eua" element={<BolsaAmericana />} />
+          <Route path="/acoes_etfs" element={<AcoesETFs />} />
+          <Route path="/reserva_emergencia" element={<ReservaEmergencia />} />
+          <Route path="/fundos_imobiliarios" element={<FundosImobiliarios />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
