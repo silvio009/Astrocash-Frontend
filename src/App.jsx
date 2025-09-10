@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from "./contexts/AuthContext";
 
 import './App.css';
@@ -14,23 +14,38 @@ import FundosImobiliarios from './pages/FundosImobiliarios/fundosImobiliarios';
 
 import Header from './Components/Header/Header';
 
+function AppWrapper() {
+  const location = useLocation();
+
+  //rotas sem header
+  const noHeaderPaths = ['/Cadastrar-se', '/Login'];
+
+  const showHeader = !noHeaderPaths.includes(location.pathname);
+
+  return (
+    <>
+      {showHeader && <Header toggleMenu={() => {}} menuOpen={false} />}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/renda_fixa" element={<RendaFixa />} />
+        <Route path="/tesouro_direto" element={<TesouroDireto />} />
+        <Route path="/Cadastrar-se" element={<Cadastro />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/acoes_eua" element={<BolsaAmericana />} />
+        <Route path="/acoes_etfs" element={<AcoesETFs />} />
+        <Route path="/reserva_emergencia" element={<ReservaEmergencia />} />
+        <Route path="/fundos_imobiliarios" element={<FundosImobiliarios />} />
+      </Routes>
+    </>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Header />  
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/renda_fixa" element={<RendaFixa />} />
-          <Route path="/tesouro_direto" element={<TesouroDireto />} />
-          <Route path="/Cadastrar-se" element={<Cadastro />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/acoes_eua" element={<BolsaAmericana />} />
-          <Route path="/acoes_etfs" element={<AcoesETFs />} />
-          <Route path="/reserva_emergencia" element={<ReservaEmergencia />} />
-          <Route path="/fundos_imobiliarios" element={<FundosImobiliarios />} />
-        </Routes>
+        <AppWrapper />
       </BrowserRouter>
     </AuthProvider>
   );
