@@ -10,7 +10,8 @@ import Login from './pages/Login/login';
 import BolsaAmericana from './pages/BolsaAmerica/BolsaAmericana';
 import AcoesETFs from './pages/AcoesEtfs/AcoesEtfs';
 import ReservaEmergencia from './pages/ReservaEmergencial/ReservaEmergencia';
-import FundosImobiliarios from './pages/FundosImobiliarios/fundosImobiliarios'; 
+import FundosImobiliarios from './pages/FundosImobiliarios/fundosImobiliarios';
+import Configuracaes from './pages/Configuracoes/configuracoes';
 
 import Header from './Components/Header/Header';
 
@@ -18,7 +19,7 @@ function AppWrapper() {
   const location = useLocation();
 
   //rotas sem header
-  const noHeaderPaths = ['/Cadastrar-se', '/Login'];
+  const noHeaderPaths = ['/Cadastrar-se', '/Login','/configuracoes'];
 
   const showHeader = !noHeaderPaths.includes(location.pathname);
 
@@ -36,6 +37,8 @@ function AppWrapper() {
         <Route path="/acoes_etfs" element={<AcoesETFs />} />
         <Route path="/reserva_emergencia" element={<ReservaEmergencia />} />
         <Route path="/fundos_imobiliarios" element={<FundosImobiliarios />} />
+        <Route path="/configuracoes" element={<Configuracaes />} />
+
       </Routes>
     </>
   );
