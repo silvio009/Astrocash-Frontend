@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "../Header/Header.css";
 
 import logoImg from "../../assets/logo_AstroCash.png";
@@ -35,10 +36,23 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setProfileMenuOpen(false);
-    navigate("/", { replace: true });
-    window.location.reload();
+    Swal.fire({
+      title: 'Você tem certeza que deseja sair?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("token");
+        setProfileMenuOpen(false);
+        navigate("/", { replace: true });
+        window.location.reload();
+      } else {
+        setProfileMenuOpen(false);
+      }
+    });
   };
 
   return (
