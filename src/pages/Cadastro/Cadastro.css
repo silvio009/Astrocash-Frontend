@@ -170,3 +170,32 @@
 .cadastro-password-popup .erro {
   color: red;
 }
+
+.login-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.login-loader span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.login-loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.login-loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
+}

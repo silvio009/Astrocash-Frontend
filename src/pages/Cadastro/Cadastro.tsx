@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./Cadastro.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaIdCard, FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 import logoCadastro from "../../assets/logo_login.jpg";
 
 export default function CadastroFinal() {
-  const navigate = useNavigate(); // para redirecionamento
+  const navigate = useNavigate();
+
   const [dadosCadastro, setDadosCadastro] = useState({
     cadastroNome: "",
     cadastroEmail: "",
@@ -24,7 +26,7 @@ export default function CadastroFinal() {
   });
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarRepetirSenha, setMostrarRepetirSenha] = useState(false);
-  const [erroCadastro, setErroCadastro] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleCadastroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDadosCadastro({ ...dadosCadastro, [e.target.name]: e.target.value });
@@ -48,20 +50,25 @@ export default function CadastroFinal() {
   const handleCadastroSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // validação da senha
     if (!validarSenha(dadosCadastro.cadastroSenha)) {
-      setErroCadastro(
-        "A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial."
-      );
+      Swal.fire({
+        icon: "error",
+        title: "Senha inválida",
+        text: "A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.",
+      });
       return;
     }
 
     if (dadosCadastro.cadastroSenha !== dadosCadastro.cadastroRepetirSenha) {
-      setErroCadastro("As senhas não coincidem.");
+      Swal.fire({
+        icon: "error",
+        title: "Senha não confere",
+        text: "As senhas não coincidem.",
+      });
       return;
     }
 
-    setErroCadastro("");
+    setLoading(true);
 
     try {
       const response = await fetch("http://localhost:8080/auth/register", {
@@ -75,21 +82,53 @@ export default function CadastroFinal() {
         }),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || "Erro ao cadastrar usuário.");
-      }
-
       const data = await response.json();
-      if (data.token) {
-        localStorage.setItem("token", data.token); 
+
+      if (!response.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro ao criar conta",
+          text: data.erro || "Ocorreu um erro no cadastro.",
+        });
+        return;
       }
 
-      setErroCadastro(""); // limpa mensagens de erro
-      navigate("/");
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
+      // Login automático após cadastro
+      const loginResponse = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: dadosCadastro.cadastroEmail,
+          senha: dadosCadastro.cadastroSenha,
+        }),
+      });
+
+      const loginData = await loginResponse.json();
+
+      if (loginData.token) {
+        localStorage.setItem("token", loginData.token);
+      }
+
+      await Swal.fire({
+        icon: "success",
+        title: "Conta criada com sucesso!",
+        html: `Parabéns <strong>${dadosCadastro.cadastroNome}</strong>! 🎉<br>Agora você já está logado e pode começar a investir no seu futuro financeiro 🚀💰`,
+        confirmButtonText: "Começar agora!",
+        timer: 5000,
+        timerProgressBar: true,
+      });
+
+      navigate("/");
     } catch (error: any) {
-      setErroCadastro(error.message || "Erro ao conectar com o servidor.");
+      Swal.fire({
+        icon: "error",
+        title: "Erro ao criar conta",
+        text: "Ocorreu um erro ao conectar com o servidor.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,7 +152,6 @@ export default function CadastroFinal() {
         </div>
 
         <form onSubmit={handleCadastroSubmit} className="cadastro-form">
-          {/* Inputs */}
           <div className="cadastro-input-group">
             <FaUser className="cadastro-input-icon" />
             <input
@@ -201,10 +239,16 @@ export default function CadastroFinal() {
             </span>
           </div>
 
-          {erroCadastro && <p className="cadastro-error-message">{erroCadastro}</p>}
-
-          <button type="submit" className="cadastro-btn-cadastrar">
-            Cadastrar-se
+          <button type="submit" className="cadastro-btn-cadastrar" disabled={loading}>
+            {loading ? (
+              <div className="login-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            ) : (
+              "Cadastrar-se"
+            )}
           </button>
         </form>
       </div>

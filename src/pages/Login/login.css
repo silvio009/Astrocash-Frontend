@@ -187,3 +187,34 @@
   background: linear-gradient(45deg, #1976d2, #4cafef);
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
+
+
+.login-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  height: 1rem;
+}
+
+.login-loader span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  animation: login-loader-bounce 0.6s infinite alternate;
+}
+
+.login-loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.login-loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes login-loader-bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}

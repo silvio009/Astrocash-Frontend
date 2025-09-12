@@ -8,6 +8,8 @@ export default function Login() {
   const [loginData, setLoginData] = useState({ emailLogin: "", senhaLogin: "" });
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mensagemErro, setMensagemErro] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,11 +25,15 @@ export default function Login() {
     }
 
     try {
+      setLoading(true); // inicia loading
+      setMensagemErro("");
+
+      // Simula delay de 2 segundos
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: loginData.emailLogin,
           senha: loginData.senhaLogin,
@@ -40,18 +46,13 @@ export default function Login() {
       }
 
       const data = await response.json();
-
-      // salva o token JWT no localStorage
       localStorage.setItem("token", data.token);
 
-      // limpa mensagem de erro
-      setMensagemErro("");
-
-      // redireciona para Home imediatamente
       navigate("/");
-
     } catch (error: any) {
       setMensagemErro(error.message || "Erro ao conectar com o servidor.");
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -111,9 +112,20 @@ export default function Login() {
             </span>
           </div>
 
-          {mensagemErro && <p className="login-error-message">{mensagemErro}</p>}
+          {/* Botão com loader */}
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? (
+              <div className="login-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            ) : (
+              "Entrar"
+            )}
+          </button>
 
-          <button type="submit" className="login-btn">Entrar</button>
+          {mensagemErro && <p className="login-error-message">{mensagemErro}</p>}
         </form>
       </div>
     </div>
