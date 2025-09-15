@@ -16,6 +16,8 @@ export default function Login() {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -46,7 +48,12 @@ export default function Login() {
       }
 
       const data = await response.json();
-      localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.id); // do backend
+        localStorage.setItem("nome", data.nome);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("cpf", data.cpf);
+        localStorage.setItem("dataCadastro", data.dataCadastro);
 
       navigate("/");
     } catch (error: any) {

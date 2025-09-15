@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { User, Mail, Lock, MapPin, Calendar, Phone } from "lucide-react";
 
@@ -17,15 +17,66 @@ const CardSection = ({ title, children }: { title: string; children: React.React
 export default function Configuracao() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    nome: "João Silva",
-    email: "joao.silva@email.com",
+    nome: "",
+    email: "",
     senha: "",
-    cpf: "123.456.789-00",
-    endereco: "Rua Exemplo, 123, São Paulo - SP",
-    dataCadastro: "01/01/2022",
-    telefone: "(11) 91234-5678",
-    fotoPerfil: "https://via.placeholder.com/200",
+    cpf: "",
+    endereco: "",
+    dataCadastro: "",
+    telefone: "",
+    fotoPerfil: UserIcon, // Fixa o ícone, não vai mudar
   });
+
+  // 🔹 Puxa dados do localStorage assim que a página monta
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const nome = localStorage.getItem("nome");
+    const email = localStorage.getItem("email");
+    const cpf = localStorage.getItem("cpf");
+    const dataCadastro = localStorage.getItem("dataCadastro")
+
+    console.log("Dados do localStorage: ", { token, userId, nome, email, cpf });
+
+    if (!token || !userId) {
+      console.log("Token ou userId não encontrado no localStorage");
+      return;
+    }
+
+    // Preenche os dados iniciais do front
+    setFormData(prev => ({
+      ...prev,
+      nome: nome || "",
+      email: email || "",
+      cpf: cpf || "",
+      dataCadastro : dataCadastro || ""
+    }));
+
+    // Se quiser puxar endereço, telefone e dataCadastro do backend, pode descomentar:
+    /*
+    fetch(`http://localhost:8080/users/${userId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao buscar usuário");
+        return res.json();
+      })
+      .then(data => {
+        console.log("Dados recebidos do backend:", data);
+        setFormData(prev => ({
+          ...prev,
+          endereco: data.endereco || "",
+          telefone: data.telefone || "",
+          dataCadastro: data.dataCadastro || "",
+        }));
+      })
+      .catch(err => console.error("Erro ao carregar dados do usuário:", err));
+    */
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,13 +85,13 @@ export default function Configuracao() {
 
   const handleSave = () => {
     setIsEditing(false);
-    // Chamada de API para salvar alterações
+    // Aqui você pode colocar fetch PUT para atualizar dados
   };
+
+  if (!formData.nome) return <p>Carregando dados do usuário...</p>;
 
   return (
     <div className="config-page">
-
-      {/* Breadcrumb */}
       <nav className="config-breadcrumb">
         <Link to="/" className="config-breadcrumb-link">Home</Link>
         <span className="config-breadcrumb-separator">›</span>
@@ -54,7 +105,6 @@ export default function Configuracao() {
         </div>
 
         <div className="config-sections">
-          {/* CARD INFORMAÇÕES PESSOAIS */}
           <CardSection title="Informações Pessoais">
             <div className="config-item">
               <User /> <label>Nome</label>
@@ -74,7 +124,6 @@ export default function Configuracao() {
             </div>
           </CardSection>
 
-          {/* CARD SEGURANÇA */}
           <CardSection title="Segurança">
             <div className="config-item">
               <Lock /> <label>Senha</label>
@@ -84,12 +133,22 @@ export default function Configuracao() {
               <Lock /> <label>CPF</label> <span>{formData.cpf}</span>
             </div>
             <div className="config-item">
-              <Calendar /> <label>Data de cadastro</label> <span>{formData.dataCadastro}</span>
+              <Calendar /> <label>Data de cadastro</label> 
+              <span>
+                {formData.dataCadastro
+                  ? new Date(formData.dataCadastro).toLocaleString("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : ""}
+              </span>
             </div>
           </CardSection>
         </div>
 
-        {/* BOTÕES */}
         <div className="config-actions">
           <button onClick={() => setIsEditing(prev => !prev)} className="btn-editar">
             {isEditing ? "Cancelar" : "Editar"}
