@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import "./Cadastro.css";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaEnvelope, FaLock, FaIdCard, FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaIdCard,
+  FaEye,
+  FaEyeSlash,
+  FaPhone,
+} from "react-icons/fa";
 import Swal from "sweetalert2";
 import logoCadastro from "../../assets/logo_login.jpg";
 
@@ -11,11 +19,13 @@ export default function CadastroFinal() {
   const [dadosCadastro, setDadosCadastro] = useState({
     cadastroNome: "",
     cadastroEmail: "",
+    cadastroTelefone: "",
     cadastroCPF: "",
     cadastroSenha: "",
     cadastroRepetirSenha: "",
   });
 
+  const [telefoneErro, setTelefoneErro] = useState(""); // <- controle do erro
   const [mostrarRequisitos, setMostrarRequisitos] = useState(false);
   const [requisitosSenha, setRequisitosSenha] = useState({
     comprimento: false,
@@ -30,6 +40,28 @@ export default function CadastroFinal() {
 
   const handleCadastroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDadosCadastro({ ...dadosCadastro, [e.target.name]: e.target.value });
+
+    if (e.target.name === "cadastroTelefone") {
+      validarTelefone(e.target.value);
+    }
+  };
+
+
+  const formatarCPF = (valor: string) => {
+    return valor
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2") 
+      .replace(/(\d{3})(\d)/, "$1.$2") 
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2"); 
+  };
+
+  const validarTelefone = (telefone: string) => {
+    const regex = /^\d{11}$/;
+    if (!regex.test(telefone)) {
+      setTelefoneErro("Adicione o DDD junto com o número (ex: 11999999999).");
+    } else {
+      setTelefoneErro("");
+    }
   };
 
   const verificarRequisitos = (senha: string) => {
@@ -50,6 +82,15 @@ export default function CadastroFinal() {
 
   const handleCadastroSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (telefoneErro) {
+      Swal.fire({
+        icon: "error",
+        title: "Telefone inválido",
+        text: "Por favor, insira um telefone válido com DDD.",
+      });
+      return;
+    }
 
     if (!validarSenha(dadosCadastro.cadastroSenha)) {
       Swal.fire({
@@ -79,6 +120,7 @@ export default function CadastroFinal() {
         body: JSON.stringify({
           nome: dadosCadastro.cadastroNome,
           email: dadosCadastro.cadastroEmail,
+          telefone: dadosCadastro.cadastroTelefone,
           cpf: dadosCadastro.cadastroCPF,
           senha: dadosCadastro.cadastroSenha,
         }),
@@ -114,6 +156,7 @@ export default function CadastroFinal() {
         localStorage.setItem("userId", loginData.id);
         localStorage.setItem("nome", loginData.nome);
         localStorage.setItem("email", loginData.email);
+        localStorage.setItem("telefone", loginData.telefone || "");
         localStorage.setItem("cpf", loginData.cpf);
         localStorage.setItem("dataCadastro", loginData.dataCadastro || "");
 
@@ -126,7 +169,7 @@ export default function CadastroFinal() {
           timerProgressBar: true,
         });
 
-        navigate("/"); 
+        navigate("/");
       } else {
         Swal.fire({
           icon: "error",
@@ -193,14 +236,37 @@ export default function CadastroFinal() {
           </div>
 
           <div className="cadastro-input-group">
+            <FaPhone className="cadastro-input-icon" />
+            <input
+              type="tel"
+              name="cadastroTelefone"
+              placeholder="Telefone com DDD"
+              value={dadosCadastro.cadastroTelefone}
+              onChange={handleCadastroChange}
+              required
+            />
+          </div>
+          {telefoneErro && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
+              {telefoneErro}
+            </p>
+          )}
+
+          <div className="cadastro-input-group">
             <FaIdCard className="cadastro-input-icon" />
             <input
               type="text"
               name="cadastroCPF"
               placeholder="CPF"
               value={dadosCadastro.cadastroCPF}
-              onChange={handleCadastroChange}
+              onChange={(e) =>
+                setDadosCadastro({
+                  ...dadosCadastro,
+                  cadastroCPF: formatarCPF(e.target.value),
+                })
+              }
               required
+              maxLength={14} 
             />
           </div>
 
@@ -263,7 +329,11 @@ export default function CadastroFinal() {
             </span>
           </div>
 
-          <button type="submit" className="cadastro-btn-cadastrar" disabled={loading}>
+          <button
+            type="submit"
+            className="cadastro-btn-cadastrar"
+            disabled={loading}
+          >
             {loading ? (
               <div className="login-loader">
                 <span></span>

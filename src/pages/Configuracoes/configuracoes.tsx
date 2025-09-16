@@ -35,6 +35,7 @@ export default function Configuracao() {
     const email = localStorage.getItem("email");
     const cpf = localStorage.getItem("cpf");
     const dataCadastro = localStorage.getItem("dataCadastro")
+    const telefone = localStorage.getItem("telefone")
 
     console.log("Dados do localStorage: ", { token, userId, nome, email, cpf });
 
@@ -49,33 +50,9 @@ export default function Configuracao() {
       nome: nome || "",
       email: email || "",
       cpf: cpf || "",
-      dataCadastro : dataCadastro || ""
+      dataCadastro : dataCadastro || "",
+      telefone : telefone || ""
     }));
-
-    // Se quiser puxar endereço, telefone e dataCadastro do backend, pode descomentar:
-    /*
-    fetch(`http://localhost:8080/users/${userId}`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Erro ao buscar usuário");
-        return res.json();
-      })
-      .then(data => {
-        console.log("Dados recebidos do backend:", data);
-        setFormData(prev => ({
-          ...prev,
-          endereco: data.endereco || "",
-          telefone: data.telefone || "",
-          dataCadastro: data.dataCadastro || "",
-        }));
-      })
-      .catch(err => console.error("Erro ao carregar dados do usuário:", err));
-    */
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,17 +96,6 @@ export default function Configuracao() {
               {isEditing ? <input name="telefone" value={formData.telefone} onChange={handleChange} /> : <span>{formData.telefone}</span>}
             </div>
             <div className="config-item">
-              <MapPin /> <label>Endereço</label>
-              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
-            </div>
-          </CardSection>
-
-          <CardSection title="Segurança">
-            <div className="config-item">
-              <Lock /> <label>Senha</label>
-              {isEditing ? <input type="password" name="senha" value={formData.senha} onChange={handleChange} /> : <span>********</span>}
-            </div>
-            <div className="config-item">
               <Lock /> <label>CPF</label> <span>{formData.cpf}</span>
             </div>
             <div className="config-item">
@@ -146,6 +112,34 @@ export default function Configuracao() {
                   : ""}
               </span>
             </div>
+          </CardSection>
+
+          <CardSection title="Segurança">
+            <div className="config-item">
+              <Lock /> <label>Senha</label>
+              {isEditing ? <input type="password" name="senha" value={formData.senha} onChange={handleChange} /> : <span>********</span>}
+            </div>
+          </CardSection>
+
+          <CardSection title="Endereço">
+            <div className="config-item">
+              <MapPin /> <label>Rua</label>
+              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
+            </div>
+            <div className="config-item">
+              <MapPin /> <label>Bairro</label>
+              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
+            </div>
+            <div className="config-item">
+              <MapPin /> <label>Número</label>
+              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
+            </div>
+            <div className="config-item">
+              <MapPin /> <label>CEP</label>
+              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
+            </div>
+
+
           </CardSection>
         </div>
 
