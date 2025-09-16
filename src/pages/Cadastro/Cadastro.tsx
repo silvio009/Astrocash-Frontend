@@ -43,7 +43,8 @@ export default function CadastroFinal() {
   };
 
   const validarSenha = (senha: string) => {
-    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const regex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(senha);
   };
 
@@ -71,6 +72,7 @@ export default function CadastroFinal() {
     setLoading(true);
 
     try {
+      // Cadastro
       const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -92,7 +94,6 @@ export default function CadastroFinal() {
         });
         return;
       }
-
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       // Login automático após cadastro
@@ -107,20 +108,33 @@ export default function CadastroFinal() {
 
       const loginData = await loginResponse.json();
 
-      if (loginData.token) {
+      if (loginResponse.ok && loginData.token) {
+        // Salvar tudo no localStorage
         localStorage.setItem("token", loginData.token);
+        localStorage.setItem("userId", loginData.id);
+        localStorage.setItem("nome", loginData.nome);
+        localStorage.setItem("email", loginData.email);
+        localStorage.setItem("cpf", loginData.cpf);
+        localStorage.setItem("dataCadastro", loginData.dataCadastro || "");
+
+        await Swal.fire({
+          icon: "success",
+          title: "Conta criada com sucesso!",
+          html: `Parabéns <strong>${dadosCadastro.cadastroNome}</strong>! 🎉<br>Agora você já está logado e pode começar a investir no seu futuro financeiro 🚀💰`,
+          confirmButtonText: "Começar agora!",
+          timer: 5000,
+          timerProgressBar: true,
+        });
+
+        navigate("/"); 
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Erro no login automático",
+          text: "Conta criada, mas não conseguimos logar automaticamente. Faça login manualmente.",
+        });
+        navigate("/login");
       }
-
-      await Swal.fire({
-        icon: "success",
-        title: "Conta criada com sucesso!",
-        html: `Parabéns <strong>${dadosCadastro.cadastroNome}</strong>! 🎉<br>Agora você já está logado e pode começar a investir no seu futuro financeiro 🚀💰`,
-        confirmButtonText: "Começar agora!",
-        timer: 5000,
-        timerProgressBar: true,
-      });
-
-      navigate("/");
     } catch (error: any) {
       Swal.fire({
         icon: "error",
@@ -140,7 +154,9 @@ export default function CadastroFinal() {
 
       <div className="cadastro-right">
         <nav className="cadastro-breadcrumb">
-          <Link to="/" className="cadastro-breadcrumb-link">Home</Link>
+          <Link to="/" className="cadastro-breadcrumb-link">
+            Home
+          </Link>
           <span className="cadastro-breadcrumb-separator">›</span>
           <span className="cadastro-breadcrumb-current">Cadastrar-se</span>
         </nav>
@@ -213,11 +229,19 @@ export default function CadastroFinal() {
 
           {mostrarRequisitos && (
             <div className="cadastro-password-popup">
-              <p className={requisitosSenha.comprimento ? "ok" : "erro"}>• Pelo menos 8 dígitos</p>
-              <p className={requisitosSenha.maiuscula ? "ok" : "erro"}>• 1 letra maiúscula</p>
-              <p className={requisitosSenha.minuscula ? "ok" : "erro"}>• 1 letra minúscula</p>
+              <p className={requisitosSenha.comprimento ? "ok" : "erro"}>
+                • Pelo menos 8 dígitos
+              </p>
+              <p className={requisitosSenha.maiuscula ? "ok" : "erro"}>
+                • 1 letra maiúscula
+              </p>
+              <p className={requisitosSenha.minuscula ? "ok" : "erro"}>
+                • 1 letra minúscula
+              </p>
               <p className={requisitosSenha.numero ? "ok" : "erro"}>• 1 número</p>
-              <p className={requisitosSenha.especial ? "ok" : "erro"}>• 1 caractere especial (@$!%*?&)</p>
+              <p className={requisitosSenha.especial ? "ok" : "erro"}>
+                • 1 caractere especial (@$!%*?&)
+              </p>
             </div>
           )}
 
