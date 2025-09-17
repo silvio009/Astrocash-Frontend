@@ -199,3 +199,40 @@
   from { transform: translateY(0); }
   to { transform: translateY(-6px); }
 }
+
+
+.link-editar {
+  color: #007bff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.link-editar:hover {
+  transform: translateY(-3px);
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.link-editar.salvar {
+  background-color: #007bff;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.link-editar.salvar:hover {
+  transform: translateY(-2px);
+  background-color: #0056b3;
+}
+
+.link-editar.cancelar {
+  color: #ff4d4f;
+}
+
+.link-editar.cancelar:hover {
+  transform: translateY(-2px);
+  text-decoration: underline;
+}

@@ -7,6 +7,15 @@ import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 import "./configuracoes.css";
 import UserIcon from "../../assets/user-icon.png";
 
+type Endereco = {
+  rua: string;
+  bairro: string;
+  numero: string;
+  cidade: string;
+  estado: string;
+  cep: string;
+};
+
 const CardSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="config-card">
     <h2 className="config-card-title">{title}</h2>
@@ -15,54 +24,90 @@ const CardSection = ({ title, children }: { title: string; children: React.React
 );
 
 export default function Configuracao() {
-  const [isEditing, setIsEditing] = useState(false);
+  const userId = localStorage.getItem("userId") || "";
+  const token = localStorage.getItem("token") || "";
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     senha: "",
     cpf: "",
-    endereco: "",
     dataCadastro: "",
     telefone: "",
-    fotoPerfil: UserIcon, // Fixa o ícone, não vai mudar
+    fotoPerfil: UserIcon,
+    endereco: {
+      rua: "",
+      bairro: "",
+      numero: "",
+      cidade: "",
+      estado: "",
+      cep: "",
+    } as Endereco,
   });
 
-  // 🔹 Puxa dados do localStorage assim que a página monta
+  const [isEditingInfo, setIsEditingInfo] = useState(false);
+  const [isEditingEndereco, setIsEditingEndereco] = useState(false);
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-    const nome = localStorage.getItem("nome");
-    const email = localStorage.getItem("email");
-    const cpf = localStorage.getItem("cpf");
-    const dataCadastro = localStorage.getItem("dataCadastro")
-    const telefone = localStorage.getItem("telefone")
+    if (!token || !userId) return;
 
-    console.log("Dados do localStorage: ", { token, userId, nome, email, cpf });
-
-    if (!token || !userId) {
-      console.log("Token ou userId não encontrado no localStorage");
-      return;
-    }
-
-    // Preenche os dados iniciais do front
     setFormData(prev => ({
       ...prev,
-      nome: nome || "",
-      email: email || "",
-      cpf: cpf || "",
-      dataCadastro : dataCadastro || "",
-      telefone : telefone || ""
+      nome: localStorage.getItem("nome") || "",
+      email: localStorage.getItem("email") || "",
+      cpf: localStorage.getItem("cpf") || "",
+      dataCadastro: localStorage.getItem("dataCadastro") || "",
+      telefone: localStorage.getItem("telefone") || "",
     }));
-  }, []);
+  }, [userId, token]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (["rua", "bairro", "numero", "cidade", "estado", "cep"].includes(name)) {
+      setFormData(prev => ({ ...prev, endereco: { ...prev.endereco, [name]: value } }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // Aqui você pode colocar fetch PUT para atualizar dados
+  const handlePut = async (url: string, body: object) => {
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) throw new Error("Erro ao atualizar dados");
+    return res.json();
+  };
+
+  const handleSaveInfo = async () => {
+    try {
+      await handlePut(`http://localhost:8080/users/${userId}`, {
+        nome: formData.nome,
+        email: formData.email,
+        telefone: formData.telefone,
+      });
+      alert("Informações pessoais atualizadas!");
+      setIsEditingInfo(false);
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao salvar informações pessoais");
+    }
+  };
+
+  const handleSaveEndereco = async () => {
+    try {
+      await handlePut(`http://localhost:8080/users/${userId}/endereco`, formData.endereco);
+      alert("Endereço atualizado!");
+      setIsEditingEndereco(false);
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao salvar endereço");
+    }
   };
 
   if (!formData.nome) return <p>Carregando dados do usuário...</p>;
@@ -77,7 +122,7 @@ export default function Configuracao() {
 
       <main className="config-main">
         <div className="config-hero">
-          <img src={UserIcon} alt="Perfil" className="config-avatar" />
+          <img src={formData.fotoPerfil} alt="Perfil" className="config-avatar" />
           <h1>{formData.nome}</h1>
         </div>
 
@@ -85,69 +130,65 @@ export default function Configuracao() {
           <CardSection title="Informações Pessoais">
             <div className="config-item">
               <User /> <label>Nome</label>
-              {isEditing ? <input name="nome" value={formData.nome} onChange={handleChange} /> : <span>{formData.nome}</span>}
+              {isEditingInfo ? <input name="nome" value={formData.nome} onChange={handleChange} /> : <span>{formData.nome}</span>}
             </div>
             <div className="config-item">
               <Mail /> <label>Email</label>
-              {isEditing ? <input name="email" value={formData.email} onChange={handleChange} /> : <span>{formData.email}</span>}
+              {isEditingInfo ? <input name="email" value={formData.email} onChange={handleChange} /> : <span>{formData.email}</span>}
             </div>
             <div className="config-item">
               <Phone /> <label>Telefone</label>
-              {isEditing ? <input name="telefone" value={formData.telefone} onChange={handleChange} /> : <span>{formData.telefone}</span>}
+              {isEditingInfo ? <input name="telefone" value={formData.telefone} onChange={handleChange} /> : <span>{formData.telefone}</span>}
             </div>
             <div className="config-item">
               <Lock /> <label>CPF</label> <span>{formData.cpf}</span>
             </div>
             <div className="config-item">
-              <Calendar /> <label>Data de cadastro</label> 
-              <span>
-                {formData.dataCadastro
-                  ? new Date(formData.dataCadastro).toLocaleString("pt-BR", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  : ""}
-              </span>
+              <Calendar /> <label>Data de cadastro</label>
+              <span>{new Date(formData.dataCadastro).toLocaleString("pt-BR")}</span>
             </div>
+            {isEditingInfo ? (
+              <div className="config-actions">
+                <span className="link-editar salvar" onClick={handleSaveInfo}>Salvar</span>
+                <span className="link-editar cancelar" onClick={() => setIsEditingInfo(false)}>Cancelar</span>
+              </div>
+            ) : (
+              <div className="config-actions">
+                <span className="link-editar" onClick={() => setIsEditingInfo(true)}>Editar</span>
+              </div>
+            )}
           </CardSection>
 
           <CardSection title="Segurança">
             <div className="config-item">
               <Lock /> <label>Senha</label>
-              {isEditing ? <input type="password" name="senha" value={formData.senha} onChange={handleChange} /> : <span>********</span>}
+              <span>********</span>
             </div>
           </CardSection>
 
           <CardSection title="Endereço">
-            <div className="config-item">
-              <MapPin /> <label>Rua</label>
-              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
-            </div>
-            <div className="config-item">
-              <MapPin /> <label>Bairro</label>
-              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
-            </div>
-            <div className="config-item">
-              <MapPin /> <label>Número</label>
-              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
-            </div>
-            <div className="config-item">
-              <MapPin /> <label>CEP</label>
-              {isEditing ? <input name="endereco" value={formData.endereco} onChange={handleChange} /> : <span>{formData.endereco}</span>}
-            </div>
+            {["rua", "bairro", "numero", "cidade", "estado", "cep"].map(field => (
+              <div className="config-item" key={field}>
+                <MapPin /> <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                {isEditingEndereco ? (
+                  <input name={field} value={formData.endereco[field as keyof Endereco]} onChange={handleChange} />
+                ) : (
+                  <span>{formData.endereco[field as keyof Endereco]}</span>
+                )}
+              </div>
+            ))}
 
-
+            {isEditingEndereco ? (
+              <div className="config-actions">
+                <span className="link-editar salvar" onClick={handleSaveEndereco}>Salvar</span>
+                <span className="link-editar cancelar" onClick={() => setIsEditingEndereco(false)}>Cancelar</span>
+              </div>
+            ) : (
+              <div className="config-actions">
+                <span className="link-editar" onClick={() => setIsEditingEndereco(true)}>Editar</span>
+              </div>
+            )}
           </CardSection>
-        </div>
-
-        <div className="config-actions">
-          <button onClick={() => setIsEditing(prev => !prev)} className="btn-editar">
-            {isEditing ? "Cancelar" : "Editar"}
-          </button>
-          {isEditing && <button onClick={handleSave} className="btn-salvar">Salvar</button>}
         </div>
       </main>
 
