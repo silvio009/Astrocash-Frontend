@@ -30,7 +30,7 @@ const CardSection = ({
   onEdit,
   children,
 }: {
-  title: string;
+  title: React.ReactNode;
   onEdit?: () => void;
   children: React.ReactNode;
 }) => (
@@ -277,7 +277,14 @@ export default function Configuracao() {
 
           {/* Endereço */}
           <CardSection
-            title="Endereço"
+            title={
+              <>
+                Endereço
+                {Object.values(formData.endereco).every((value) => !value) && (
+                  <span className="endereco-pendente">* informações pendentes </span>
+                )}
+              </>
+            }
             onEdit={() => setIsEditingEndereco(!isEditingEndereco)}
           >
             {["rua", "bairro", "numero", "cidade", "estado", "cep"].map(

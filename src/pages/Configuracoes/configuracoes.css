@@ -258,3 +258,11 @@
   outline: none;
   background-color: #fff; 
 }
+
+
+.endereco-pendente {
+  color: #ff4d4f; 
+  font-size: 0.9rem;
+  margin-left: 10px;
+  font-weight: 500;
+}
