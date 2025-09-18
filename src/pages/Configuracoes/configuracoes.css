@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  background-color: #f5f7fa;
 }
 
 .config-main {
@@ -16,11 +17,12 @@
   align-items: center;
 }
 
+/* HERO / AVATAR */
 .config-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   position: relative;
 }
 
@@ -31,94 +33,117 @@
 }
 
 .config-avatar {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   object-fit: cover;
-  border: 4px solid #000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 4px solid #222;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.config-avatar:hover {
+  transform: scale(1.05);
 }
 
 .config-sections {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 35px;
 }
 
 /* CARD */
 .config-card {
   background-color: #fff;
-  border-radius: 12px;
-  padding: 25px 30px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  border-radius: 14px;
+  padding: 30px 35px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.config-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.config-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .config-card-title {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 5px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
 }
+
 
 .config-card-body {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
+/* ITENS DO CARD */
 .config-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .config-item label {
-  font-weight: bold;
+  font-weight: 600;
   width: 150px;
+  color: #555;
 }
 
 .config-item input {
   flex: 1;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 12px 15px;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.config-item input:focus {
+  border-color: #007bff;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  outline: none;
 }
 
 .config-item span {
+  flex: 1;
   font-size: 1.1rem;
+  color: #333;
 }
 
-/* BOTÕES */
+/* AÇÕES DO CARD */
 .config-actions {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
 }
 
-.btn-editar, .btn-salvar {
-  padding: 12px 25px;
-  font-size: 1.1rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
 
-.btn-editar { background-color: #007bff; color: white; }
-.btn-salvar { background-color: #28a745; color: white; }
-
-/* Breadcrumb Configurações */
+/* BREADCRUMB */
 .config-breadcrumb {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 18px;
-  padding: 16px 24px 0 24px; 
+  padding: 16px 24px 0 24px;
   color: #444;
-  justify-content: flex-start; 
-  width: 100%; 
+  justify-content: flex-start;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -150,4 +175,86 @@
 
 .config-breadcrumb-separator {
   color: #666;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .config-card-body {
+    gap: 12px;
+  }
+
+  .config-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .config-item label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .config-actions {
+    justify-content: flex-start;
+  }
+}
+
+.config-sections .config-card:last-child {
+  margin-bottom: 60px; 
+}
+
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* espaço entre texto e ícone */
+  padding: 0;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover suave */
+.edit-btn:hover {
+  color: #0056b3;
+  transform: translateY(-1px);
+}
+.edit-btn:focus {
+  outline: none; 
+  box-shadow: none; 
+}
+
+/* Ícone da caneta atrás do texto */
+.edit-btn svg {
+  font-size: 1rem;
+  color: #007bff;
+  opacity: 0.8;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.edit-btn:hover svg {
+  transform: translateX(2px) rotate(-10deg);
+  opacity: 1;
+}
+
+
+.config-item input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #f8f9fa; 
+  color: #333; 
+  transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.config-item input:focus {
+  border-color: #007bff;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  outline: none;
+  background-color: #fff; 
 }

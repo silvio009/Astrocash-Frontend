@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { User, Mail, Lock, MapPin, Calendar, Phone } from "lucide-react";
+import {
+  User,
+  Mail,
+  Lock,
+  MapPin,
+  Calendar,
+  Phone,
+  Edit3,
+  Pen 
+} from "lucide-react";
 
 import Footer from "../../components/Footer/FooterSection";
 import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
@@ -16,9 +25,24 @@ type Endereco = {
   cep: string;
 };
 
-const CardSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const CardSection = ({
+  title,
+  onEdit,
+  children,
+}: {
+  title: string;
+  onEdit?: () => void;
+  children: React.ReactNode;
+}) => (
   <div className="config-card">
-    <h2 className="config-card-title">{title}</h2>
+    <div className="config-card-header">
+      <h2 className="config-card-title">{title}</h2>
+      {onEdit && (
+      <button className="edit-btn" onClick={onEdit}>
+        Editar <Pen size={16} />
+      </button>
+      )}
+    </div>
     <div className="config-card-body">{children}</div>
   </div>
 );
@@ -46,6 +70,7 @@ export default function Configuracao() {
 
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [isEditingEndereco, setIsEditingEndereco] = useState(false);
+  const [isEditingSecurity, setIsEditingSecurity] = useState(false);
 
   // Puxa dados do backend sem perder valores existentes
   useEffect(() => {
@@ -63,8 +88,7 @@ export default function Configuracao() {
 
         const data = await res.json();
 
-
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
           nome: data.nome || prev.nome,
           email: data.email || prev.email,
@@ -91,9 +115,12 @@ export default function Configuracao() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (["rua", "bairro", "numero", "cidade", "estado", "cep"].includes(name)) {
-      setFormData(prev => ({ ...prev, endereco: { ...prev.endereco, [name]: value } }));
+      setFormData((prev) => ({
+        ...prev,
+        endereco: { ...prev.endereco, [name]: value },
+      }));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -127,7 +154,10 @@ export default function Configuracao() {
 
   const handleSaveEndereco = async () => {
     try {
-      await handlePut(`http://localhost:8080/users/${userId}/endereco`, formData.endereco);
+      await handlePut(
+        `http://localhost:8080/users/${userId}/endereco`,
+        formData.endereco
+      );
       alert("Endereço atualizado!");
       setIsEditingEndereco(false);
     } catch (err) {
@@ -141,81 +171,147 @@ export default function Configuracao() {
   return (
     <div className="config-page">
       <nav className="config-breadcrumb">
-        <Link to="/" className="config-breadcrumb-link">Home</Link>
+        <Link to="/" className="config-breadcrumb-link">
+          Home
+        </Link>
         <span className="config-breadcrumb-separator">›</span>
         <span className="config-breadcrumb-current">Configurações</span>
       </nav>
 
       <main className="config-main">
         <div className="config-hero">
-          <img src={formData.fotoPerfil} alt="Perfil" className="config-avatar" />
+          <img
+            src={formData.fotoPerfil}
+            alt="Perfil"
+            className="config-avatar"
+          />
           <h1>{formData.nome}</h1>
         </div>
 
         <div className="config-sections">
-          <CardSection title="Informações Pessoais">
+          {/* Informações Pessoais */}
+          <CardSection
+            title="Informações Pessoais"
+            onEdit={() => setIsEditingInfo(!isEditingInfo)}
+          >
             <div className="config-item">
               <User /> <label>Nome</label>
-              {isEditingInfo ? <input name="nome" value={formData.nome} onChange={handleChange} /> : <span>{formData.nome}</span>}
+              {isEditingInfo ? (
+                <input
+                  name="nome"
+                  value={formData.nome}
+                  onChange={handleChange}
+                />
+              ) : (
+                <span>{formData.nome}</span>
+              )}
             </div>
             <div className="config-item">
               <Mail /> <label>Email</label>
-              {isEditingInfo ? <input name="email" value={formData.email} onChange={handleChange} /> : <span>{formData.email}</span>}
+              {isEditingInfo ? (
+                <input
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              ) : (
+                <span>{formData.email}</span>
+              )}
             </div>
             <div className="config-item">
               <Phone /> <label>Telefone</label>
-              {isEditingInfo ? <input name="telefone" value={formData.telefone} onChange={handleChange} /> : <span>{formData.telefone}</span>}
+              {isEditingInfo ? (
+                <input
+                  name="telefone"
+                  value={formData.telefone}
+                  onChange={handleChange}
+                />
+              ) : (
+                <span>{formData.telefone}</span>
+              )}
             </div>
             <div className="config-item">
               <Lock /> <label>CPF</label> <span>{formData.cpf}</span>
             </div>
             <div className="config-item">
               <Calendar /> <label>Data de cadastro</label>
-              <span>{formData.dataCadastro ? new Date(formData.dataCadastro).toLocaleString("pt-BR") : ""}</span>
+              <span>
+                {formData.dataCadastro
+                  ? new Date(formData.dataCadastro).toLocaleString("pt-BR")
+                  : ""}
+              </span>
             </div>
-            {isEditingInfo ? (
+            {isEditingInfo && (
               <div className="config-actions">
-                <span className="link-editar salvar" onClick={handleSaveInfo}>Salvar</span>
-                <span className="link-editar cancelar" onClick={() => setIsEditingInfo(false)}>Cancelar</span>
-              </div>
-            ) : (
-              <div className="config-actions">
-                <span className="link-editar" onClick={() => setIsEditingInfo(true)}>Editar</span>
+                <span className="link-editar salvar" onClick={handleSaveInfo}>
+                  Salvar
+                </span>
+                <span
+                  className="link-editar cancelar"
+                  onClick={() => setIsEditingInfo(false)}
+                >
+                  Cancelar
+                </span>
               </div>
             )}
           </CardSection>
 
-          <CardSection title="Segurança">
+          {/* Segurança */}
+          <CardSection
+            title="Segurança"
+            onEdit={() => setIsEditingSecurity(!isEditingSecurity)}
+          >
             <div className="config-item">
               <Mail /> <label>Email</label>
-              {isEditingInfo ? <input name="email" value={formData.email} onChange={handleChange} /> : <span>{formData.email}</span>}
+              <span>{formData.email}</span>
             </div>
             <div className="config-item">
               <Lock /> <label>Senha</label>
-              <span>************</span>
+              {isEditingSecurity ? (
+                <input type="password" placeholder="Nova senha" />
+              ) : (
+                <span>************</span>
+              )}
             </div>
           </CardSection>
 
-          <CardSection title="Endereço">
-            {["rua", "bairro", "numero", "cidade", "estado", "cep"].map(field => (
-              <div className="config-item" key={field}>
-                <MapPin /> <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                {isEditingEndereco ? (
-                  <input name={field} value={formData.endereco[field as keyof Endereco]} onChange={handleChange} />
-                ) : (
-                  <span>{formData.endereco[field as keyof Endereco]}</span>
-                )}
-              </div>
-            ))}
+          {/* Endereço */}
+          <CardSection
+            title="Endereço"
+            onEdit={() => setIsEditingEndereco(!isEditingEndereco)}
+          >
+            {["rua", "bairro", "numero", "cidade", "estado", "cep"].map(
+              (field) => (
+                <div className="config-item" key={field}>
+                  <MapPin />{" "}
+                  <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                  {isEditingEndereco ? (
+                    <input
+                      name={field}
+                      value={formData.endereco[field as keyof Endereco]}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <span>{formData.endereco[field as keyof Endereco]}</span>
+                  )}
+                </div>
+              )
+            )}
 
-            {isEditingEndereco ? (
+            {isEditingEndereco && (
               <div className="config-actions">
-                <span className="link-editar salvar" onClick={handleSaveEndereco}>Salvar</span>
-                <span className="link-editar cancelar" onClick={() => setIsEditingEndereco(false)}>Cancelar</span>
-              </div>
-            ) : (
-              <div className="config-actions">
-                <span className="link-editar" onClick={() => setIsEditingEndereco(true)}>Editar</span>
+                <span
+                  className="link-editar salvar"
+                  onClick={handleSaveEndereco}
+                >
+                  Salvar
+                </span>
+                <span
+                  className="link-editar cancelar"
+                  onClick={() => setIsEditingEndereco(false)}
+                >
+                  Cancelar
+                </span>
               </div>
             )}
           </CardSection>
