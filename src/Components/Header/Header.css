@@ -122,6 +122,12 @@
   gap: 15px;
 }
 
+
+
+/*Headerloggeed */
+
+
+
 /* Ícone do perfil */
 .profile-container {
   position: relative; 
@@ -199,4 +205,58 @@
 .hamburger:focus {
   outline: none;
   box-shadow: none;
+}
+
+.notification-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px; 
+  position: relative;
+}
+
+.notification-popup {
+  position: absolute;
+  top: 40px; 
+  right: 0;
+  width: 220px;
+  height: 150px; 
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+
+.notification-icon {
+  background: none;     
+  border: none;         
+  cursor: pointer;
+  margin-right: 10px;    
+  position: relative;
+  outline: none;         
+}
+
+.notification-icon:focus {
+  outline: none;     
+}
+
+
+.notification-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  position: relative;
+  outline: none;
+  transition: transform 0.3s ease; 
+}
+
+.notification-icon:focus {
+  outline: none;
+}
+
+.notification-icon:hover {
+  transform: translateY(-3px); 
 }
