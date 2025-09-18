@@ -28,12 +28,11 @@ export default function Configuracao() {
   const token = localStorage.getItem("token") || "";
 
   const [formData, setFormData] = useState({
-    nome: "",
-    email: "",
-    senha: "",
-    cpf: "",
-    dataCadastro: "",
-    telefone: "",
+    nome: localStorage.getItem("nome") || "",
+    email: localStorage.getItem("email") || "",
+    cpf: localStorage.getItem("cpf") || "",
+    dataCadastro: localStorage.getItem("dataCadastro") || "",
+    telefone: localStorage.getItem("telefone") || "",
     fotoPerfil: UserIcon,
     endereco: {
       rua: "",
@@ -48,17 +47,45 @@ export default function Configuracao() {
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [isEditingEndereco, setIsEditingEndereco] = useState(false);
 
+  // Puxa dados do backend sem perder valores existentes
   useEffect(() => {
     if (!token || !userId) return;
 
-    setFormData(prev => ({
-      ...prev,
-      nome: localStorage.getItem("nome") || "",
-      email: localStorage.getItem("email") || "",
-      cpf: localStorage.getItem("cpf") || "",
-      dataCadastro: localStorage.getItem("dataCadastro") || "",
-      telefone: localStorage.getItem("telefone") || "",
-    }));
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch(`http://localhost:8080/users/${userId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!res.ok) throw new Error("Erro ao buscar dados do usuário");
+
+        const data = await res.json();
+
+
+        setFormData(prev => ({
+          ...prev,
+          nome: data.nome || prev.nome,
+          email: data.email || prev.email,
+          cpf: data.cpf || prev.cpf,
+          dataCadastro: data.dataCadastro || prev.dataCadastro,
+          telefone: data.telefone || prev.telefone,
+          endereco: {
+            rua: data.endereco?.rua || prev.endereco.rua,
+            bairro: data.endereco?.bairro || prev.endereco.bairro,
+            numero: data.endereco?.numero || prev.endereco.numero,
+            cidade: data.endereco?.cidade || prev.endereco.cidade,
+            estado: data.endereco?.estado || prev.endereco.estado,
+            cep: data.endereco?.cep || prev.endereco.cep,
+          },
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchUserData();
   }, [userId, token]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +106,6 @@ export default function Configuracao() {
       },
       body: JSON.stringify(body),
     });
-
     if (!res.ok) throw new Error("Erro ao atualizar dados");
     return res.json();
   };
@@ -145,7 +171,7 @@ export default function Configuracao() {
             </div>
             <div className="config-item">
               <Calendar /> <label>Data de cadastro</label>
-              <span>{new Date(formData.dataCadastro).toLocaleString("pt-BR")}</span>
+              <span>{formData.dataCadastro ? new Date(formData.dataCadastro).toLocaleString("pt-BR") : ""}</span>
             </div>
             {isEditingInfo ? (
               <div className="config-actions">
@@ -161,8 +187,12 @@ export default function Configuracao() {
 
           <CardSection title="Segurança">
             <div className="config-item">
+              <Mail /> <label>Email</label>
+              {isEditingInfo ? <input name="email" value={formData.email} onChange={handleChange} /> : <span>{formData.email}</span>}
+            </div>
+            <div className="config-item">
               <Lock /> <label>Senha</label>
-              <span>********</span>
+              <span>************</span>
             </div>
           </CardSection>
 
