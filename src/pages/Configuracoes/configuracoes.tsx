@@ -71,8 +71,8 @@ export default function Configuracao() {
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [isEditingEndereco, setIsEditingEndereco] = useState(false);
   const [isEditingSecurity, setIsEditingSecurity] = useState(false);
+  const [isFetched, setIsFetched] = useState(false);
 
-  // Puxa dados do backend sem perder valores existentes
   useEffect(() => {
     if (!token || !userId) return;
 
@@ -104,6 +104,8 @@ export default function Configuracao() {
             cep: data.endereco?.cep || prev.endereco.cep,
           },
         }));
+
+        setIsFetched(true);
       } catch (err) {
         console.error(err);
       }
@@ -280,7 +282,7 @@ export default function Configuracao() {
             title={
               <>
                 Endereço
-                {Object.values(formData.endereco).every((value) => !value) && (
+                {isFetched && Object.values(formData.endereco).every((value) => !value) && (
                   <span className="endereco-pendente">* informações pendentes </span>
                 )}
               </>
