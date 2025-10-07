@@ -4,7 +4,6 @@ import {
   User,
   Mail,
   Lock,
-  MapPin,
   Calendar,
   Phone,
   Pen,
@@ -18,6 +17,7 @@ import {
 
 import Footer from "../../components/Footer/FooterSection";
 import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
+import ProfilePhotoUploader from "../../Components/Profile/ProfilePhotoUploader"
 import "./configuracoes.css";
 import UserIcon from "../../assets/user-icon.png";
 
@@ -108,6 +108,7 @@ export default function Configuracao() {
             estado: data.endereco?.estado || prev.endereco.estado,
             cep: data.endereco?.cep || prev.endereco.cep,
           },
+          fotoPerfil: data.fotoPerfil || UserIcon,
         }));
 
         setIsFetched(true);
@@ -175,7 +176,6 @@ export default function Configuracao() {
 
   if (!formData.nome) return <p>Carregando dados do usuário...</p>;
 
-  // Ícones personalizados para cada campo do endereço
   const enderecoIcons: Record<keyof Endereco, JSX.Element> = {
     rua: <Home className="icon-endereco" />,
     bairro: <Building className="icon-endereco" />,
@@ -197,11 +197,13 @@ export default function Configuracao() {
 
       <main className="config-main">
         <div className="config-hero">
-          <img
-            src={formData.fotoPerfil}
-            alt="Perfil"
-            className="config-avatar"
+          <ProfilePhotoUploader
+            initialImage={formData.fotoPerfil}
+            onComplete={(base64) =>
+              setFormData((prev) => ({ ...prev, fotoPerfil: base64 }))
+            }
           />
+
           <h1>{formData.nome}</h1>
         </div>
 
