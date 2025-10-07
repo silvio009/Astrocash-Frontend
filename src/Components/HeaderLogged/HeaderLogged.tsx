@@ -4,7 +4,14 @@ import Swal from "sweetalert2";
 import "../Header/Header.css";
 
 import logoImg from "../../assets/logo_AstroCash.png";
-import { FaUserCircle, FaWallet, FaCoins, FaCog, FaSignOutAlt, FaBell } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaWallet,
+  FaCoins,
+  FaCog,
+  FaSignOutAlt,
+  FaBell,
+} from "react-icons/fa";
 
 interface HeaderProps {
   toggleMenu: () => void;
@@ -12,7 +19,7 @@ interface HeaderProps {
 }
 
 interface Notificacao {
-  id: number;
+  id: number | string;
   mensagem: string;
   link?: string;
   visto?: boolean;
@@ -43,6 +50,81 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
   const notificationPopupRef = useRef<HTMLDivElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
+
+  const loadUserProfile = async () => {
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+
+    if (userId && token) {
+      try {
+        const res = await fetch(`http://localhost:8080/users/${userId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const endereco = data.endereco || {
+            rua: "",
+            bairro: "",
+            numero: "",
+            cidade: "",
+            estado: "",
+            cep: "",
+          };
+          setFormData((prev: any) => ({ ...prev, ...data, endereco }));
+          localStorage.setItem("userProfile", JSON.stringify({ ...data, endereco }));
+          return;
+        }
+      } catch (err) {
+        console.warn("Erro ao buscar profile no backend:", err);
+      }
+    }
+
+    const local = localStorage.getItem("userProfile");
+    if (local) {
+      try {
+        const parsed = JSON.parse(local);
+        parsed.endereco = parsed.endereco || {
+          rua: "",
+          bairro: "",
+          numero: "",
+          cidade: "",
+          estado: "",
+          cep: "",
+        };
+        setFormData((prev: any) => ({ ...prev, ...parsed }));
+      } catch (e) {
+        console.warn("userProfile no localStorage está inválido:", e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadUserProfile();
+
+    const onUserProfileUpdated = () => {
+      loadUserProfile();
+    };
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "userProfile") {
+        loadUserProfile();
+      }
+      if (e.key === "welcomeSeen") {
+        loadUserProfile();
+      }
+    };
+
+    window.addEventListener("userProfileUpdated", onUserProfileUpdated as EventListener);
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      window.removeEventListener("userProfileUpdated", onUserProfileUpdated as EventListener);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 0);
@@ -76,22 +158,25 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
     const novasNotificacoes: Notificacao[] = [];
 
     const welcomeSeen = localStorage.getItem("welcomeSeen") === "true";
-    novasNotificacoes.push({
-      id: 1,
-      mensagem: "👋 Bem-vindo ao seu futuro financeiro!",
-      visto: welcomeSeen,
-    });
+
+    if (!welcomeSeen) {
+      novasNotificacoes.push({
+        id: "welcome",
+        mensagem: "👋 Bem-vindo ao seu futuro financeiro!",
+        visto: false,
+      });
+    }
 
     const endereco = formData?.endereco;
     const enderecoPreenchido =
       endereco &&
       Object.values(endereco).every(
-        (val) => val !== null && val !== undefined && val.toString().trim() !== ""
+        (val) =>
+          val !== null && val !== undefined && val.toString().trim() !== ""
       );
-
     if (!enderecoPreenchido) {
       novasNotificacoes.push({
-        id: 2,
+        id: "endereco",
         mensagem: "⚠️ Você ainda não configurou o seu endereço.",
         link: "/configuracoes",
         visto: false,
@@ -100,12 +185,17 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
 
     setNotificacoes(novasNotificacoes);
   }, [formData]);
+  
+  const handleOpenNotifications = () => {
+    setNotificationOpen((prev) => !prev);
+    setProfileMenuOpen(false);
 
-  const handleLogoClick = () => {
-    if (location.pathname === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      navigate("/");
+    if (!notificationOpen) {
+      const hasWelcome = notificacoes.find((n) => n.id === "welcome");
+      if (hasWelcome) {
+        localStorage.setItem("welcomeSeen", "true");
+        setNotificacoes((prev) => prev.filter((n) => n.id !== "welcome"));
+      }
     }
   };
 
@@ -129,14 +219,12 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
     });
   };
 
-  const handleOpenNotifications = () => {
-    setNotificationOpen((p) => !p);
-    setProfileMenuOpen(false);
-    if (notificacoes.some((n) => n.id === 1 && !n.visto)) {
-      localStorage.setItem("welcomeSeen", "true");
-      setNotificacoes((prev) =>
-        prev.map((n) => (n.id === 1 ? { ...n, visto: true } : n))
-      );
+  // ✅ Clique no logo
+  const handleLogoClick = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/");
     }
   };
 
@@ -157,7 +245,7 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
         </nav>
 
         <div className="profile-container">
-          {/* Ícone do sininho */}
+          {/* 🔔 Ícone do sino */}
           <div className="notification-container">
             <button
               ref={notificationBtnRef}
@@ -166,10 +254,9 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
               onClick={handleOpenNotifications}
             >
               <FaBell size={27} />
-              {/* Badge conta apenas notificações não vistas */}
-              {notificacoes.some((n) => !n.visto) && (
+              {notificacoes.length > 0 && (
                 <span className="notification-badge">
-                  {notificacoes.filter((n) => !n.visto).length}
+                  {notificacoes.length}
                 </span>
               )}
             </button>
@@ -177,19 +264,10 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
             {notificationOpen && (
               <div ref={notificationPopupRef} className="notification-popup">
                 <h4>Notificações</h4>
-                {notificacoes.map((notif) => {
-                  // Não renderiza notificação de endereço se preenchido
-                  if (
-                    notif.id === 2 &&
-                    formData.endereco &&
-                    Object.values(formData.endereco).every(
-                      (val) => val !== null && val !== undefined && val.toString().trim() !== ""
-                    )
-                  ) {
-                    return null;
-                  }
-
-                  return (
+                {notificacoes.length === 0 ? (
+                  <p className="text-sm text-gray-500">Nenhuma notificação.</p>
+                ) : (
+                  notificacoes.map((notif) => (
                     <div
                       key={notif.id}
                       className={`notification-item ${
@@ -201,19 +279,19 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
                     >
                       {notif.mensagem}
                     </div>
-                  );
-                })}
+                  ))
+                )}
               </div>
             )}
           </div>
 
-          {/* Ícone do usuário */}
+          {/* 👤 Ícone do perfil */}
           <button
             ref={profileBtnRef}
             className="profile-icon"
             title="Perfil"
             onClick={() => {
-              setProfileMenuOpen((p) => !p);
+              setProfileMenuOpen((prev) => !prev);
               setNotificationOpen(false);
             }}
           >
