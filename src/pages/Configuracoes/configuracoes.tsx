@@ -7,8 +7,13 @@ import {
   MapPin,
   Calendar,
   Phone,
-  Edit3,
-  Pen 
+  Pen,
+  Home,
+  Building,
+  Hash,
+  Landmark,
+  Map,
+  LocateFixed,
 } from "lucide-react";
 
 import Footer from "../../components/Footer/FooterSection";
@@ -38,9 +43,9 @@ const CardSection = ({
     <div className="config-card-header">
       <h2 className="config-card-title">{title}</h2>
       {onEdit && (
-      <button className="edit-btn" onClick={onEdit}>
-        Editar <Pen size={16} />
-      </button>
+        <button className="edit-btn" onClick={onEdit}>
+          Editar <Pen size={16} />
+        </button>
       )}
     </div>
     <div className="config-card-body">{children}</div>
@@ -170,6 +175,16 @@ export default function Configuracao() {
 
   if (!formData.nome) return <p>Carregando dados do usuário...</p>;
 
+  // Ícones personalizados para cada campo do endereço
+  const enderecoIcons: Record<keyof Endereco, JSX.Element> = {
+    rua: <Home className="icon-endereco" />,
+    bairro: <Building className="icon-endereco" />,
+    numero: <Hash className="icon-endereco" />,
+    cidade: <Landmark className="icon-endereco" />,
+    estado: <Map className="icon-endereco" />,
+    cep: <LocateFixed className="icon-endereco" />,
+  };
+
   return (
     <div className="config-page">
       <nav className="config-breadcrumb">
@@ -282,30 +297,35 @@ export default function Configuracao() {
             title={
               <>
                 Endereço
-                {isFetched && Object.values(formData.endereco).every((value) => !value) && (
-                  <span className="endereco-pendente">* informações pendentes </span>
-                )}
+                {isFetched &&
+                  Object.values(formData.endereco).every((value) => !value) && (
+                    <span className="endereco-pendente">
+                      * informações pendentes
+                    </span>
+                  )}
               </>
             }
             onEdit={() => setIsEditingEndereco(!isEditingEndereco)}
           >
-            {["rua", "bairro", "numero", "cidade", "estado", "cep"].map(
-              (field) => (
-                <div className="config-item" key={field}>
-                  <MapPin />{" "}
-                  <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                  {isEditingEndereco ? (
-                    <input
-                      name={field}
-                      value={formData.endereco[field as keyof Endereco]}
-                      onChange={handleChange}
-                    />
-                  ) : (
-                    <span>{formData.endereco[field as keyof Endereco]}</span>
-                  )}
-                </div>
-              )
-            )}
+            {(
+              Object.keys(formData.endereco) as (keyof Endereco)[]
+            ).map((field) => (
+              <div className="config-item" key={field}>
+                {enderecoIcons[field]}
+                <label>
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
+                {isEditingEndereco ? (
+                  <input
+                    name={field}
+                    value={formData.endereco[field]}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <span>{formData.endereco[field]}</span>
+                )}
+              </div>
+            ))}
 
             {isEditingEndereco && (
               <div className="config-actions">
