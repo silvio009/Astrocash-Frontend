@@ -177,7 +177,7 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
     if (!enderecoPreenchido) {
       novasNotificacoes.push({
         id: "endereco",
-        mensagem: "⚠️ Você ainda não configurou o seu endereço.",
+        mensagem: "🔔 Quase lá! Complete seu perfil para aproveitar todos os recursos.",
         link: "/configuracoes",
         visto: false,
       });
