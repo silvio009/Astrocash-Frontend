@@ -4,7 +4,7 @@ interface NewsArticle {
 }
 
 export async function fetchMarketNews(): Promise<NewsArticle[]> {
-  const API_KEY = import.meta.env.VITE_GNEWS_API_KEY; // ou sua variável de ambiente correta
+  const API_KEY = import.meta.env.VITE_GNEWS_API_KEY; 
   const url = `https://gnews.io/api/v4/search?q=mercado%20financeiro&lang=pt&country=br&token=${API_KEY}`;
 
   try {

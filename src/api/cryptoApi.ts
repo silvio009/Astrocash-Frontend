@@ -15,7 +15,6 @@ export async function fetchCryptos() {
         sparkline: false,
       },
     });
-    // Mapear para o formato que seus componentes usam
     return response.data.map((item: any) => ({
       nome: item.name,
       preco: `R$ ${item.current_price.toLocaleString("pt-BR")}`,
