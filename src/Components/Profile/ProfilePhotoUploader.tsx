@@ -1,31 +1,27 @@
 import React, { useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../../utils/getCroppedImg"; // util abaixo
+import getCroppedImg from "../../utils/getCroppedImg";
 import { Image as ImageIcon } from "lucide-react";
 
 type Props = {
-  initialImage?: string | null; // base64 or URL
-  onComplete: (base64: string) => void; // chamado quando salvar
+  initialImage?: string | null; 
   buttonLabel?: string;
   className?: string;
 };
 
 export default function ProfilePhotoUploader({
   initialImage,
-  onComplete,
   buttonLabel = "Alterar foto",
   className,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [imageSrc, setImageSrc] = useState<string | null>(null); // imagem enviada (DataURL)
-  const [open, setOpen] = useState(false); // modal aberto
+  const [imageSrc, setImageSrc] = useState<string | null>(null); 
+  const [open, setOpen] = useState(false); 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
-
-  // para mostrar preview (se não tiver imagem enviada, mostra initialImage)
-  const previewSrc = imageSrc || initialImage || "";
+  const [previewSrc, setPreviewSrc] = useState<string | null>(initialImage || null);
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -46,17 +42,37 @@ export default function ProfilePhotoUploader({
     if (!imageSrc || !croppedAreaPixels) return;
     try {
       const base64 = await getCroppedImg(imageSrc, croppedAreaPixels);
-      // chama o callback do pai com o base64 da imagem recortada
-      onComplete(base64);
-      // fecha modal e limpa estado temporário (opcional)
+
+      const token = localStorage.getItem("token"); 
+      if (!token) {
+        console.error("Token não encontrado");
+        return;
+      }
+
+      const response = await fetch("http://localhost:8080/users/foto", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ fotoPerfil: base64 }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Erro ao atualizar foto: ${text}`);
+      }
+
+      const data = await response.json();
+      setPreviewSrc(data.fotoPerfil); 
       setOpen(false);
       setImageSrc(null);
       setZoom(1);
       setCrop({ x: 0, y: 0 });
     } catch (err) {
-      console.error("Erro ao gerar imagem recortada:", err);
+      console.error(err);
     }
-  }, [imageSrc, croppedAreaPixels, onComplete]);
+  }, [imageSrc, croppedAreaPixels]);
 
   return (
     <div className={className ?? ""}>
@@ -68,8 +84,6 @@ export default function ProfilePhotoUploader({
           className="config-avatar"
           style={{ width: 180, height: 180, objectFit: "cover", borderRadius: "50%" }}
         />
-
-        {/* botão - estilo tipo link (sem fundo) */}
         <input
           ref={fileInputRef}
           type="file"
@@ -87,7 +101,6 @@ export default function ProfilePhotoUploader({
         </button>
       </div>
 
-      {/* Modal simples para o crop */}
       {open && (
         <div className="crop-modal-overlay">
           <div className="crop-modal">

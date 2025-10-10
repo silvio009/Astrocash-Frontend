@@ -110,7 +110,6 @@ export default function Configuracao() {
           },
           fotoPerfil: data.fotoPerfil || UserIcon,
         }));
-
         setIsFetched(true);
       } catch (err) {
         console.error(err);
@@ -198,11 +197,30 @@ export default function Configuracao() {
       <main className="config-main">
         <div className="config-hero">
           <ProfilePhotoUploader
-            initialImage={formData.fotoPerfil}
-            onComplete={(base64) =>
-              setFormData((prev) => ({ ...prev, fotoPerfil: base64 }))
-            }
-          />
+              key={formData.fotoPerfil} // força remount quando mudar
+              initialImage={formData.fotoPerfil}
+              onComplete={async (base64) => {
+                try {
+                  const res = await fetch(`http://localhost:8080/users/foto`, {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ fotoPerfil: base64 }),
+                  });
+
+                  if (!res.ok) throw new Error("Erro ao atualizar foto de perfil");
+
+                  const updatedUser = await res.json();
+                  setFormData((prev) => ({ ...prev, fotoPerfil: updatedUser.fotoPerfil }));
+                } catch (err) {
+                  console.error(err);
+                  alert("Erro ao atualizar foto de perfil");
+                }
+              }}
+            />
+
 
           <h1>{formData.nome}</h1>
         </div>
