@@ -78,6 +78,7 @@ export default function Configuracao() {
   const [isEditingSecurity, setIsEditingSecurity] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
 
+  const [showRequisitosNovaSenha, setShowRequisitosNovaSenha] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
@@ -177,6 +178,31 @@ export default function Configuracao() {
       alert("Erro ao salvar endereço");
     }
   };
+
+
+  const [requisitosSenha, setRequisitosSenha] = useState({
+  comprimento: false,
+  maiuscula: false,
+  minuscula: false,
+  numero: false,
+  especial: false,
+});
+
+const verificarRequisitos = (senha: string) => {
+  setRequisitosSenha({
+    comprimento: senha.length >= 8,
+    maiuscula: /[A-Z]/.test(senha),
+    minuscula: /[a-z]/.test(senha),
+    numero: /\d/.test(senha),
+    especial: /[@$!%*?&]/.test(senha),
+  });
+};
+
+const validarSenha = (senha: string) => {
+  const regex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return regex.test(senha);
+};
 
   const handleChangePassword = () => {
     // Função preparada para integração futura com backend
@@ -333,67 +359,104 @@ export default function Configuracao() {
       </main>
 
       {/* Modal de Senha */}
-      {showPasswordModal && (
-        <div className="modal-overlay">
-          <div className="modal-content modal-content-large">
-            <h2 className="modal-title">
-              <Lock className="icon-title" /> Alterar Senha
-            </h2>
+        {showPasswordModal && (
+          <div className="modal-overlay">
+            <div className="modal-content modal-content-large">
+              <h2 className="modal-title">
+                <Lock className="icon-title" /> Alterar Senha
+              </h2>
 
-            <div className="modal-field">
-              <label className="modal-label">Senha Atual</label>
-              <input
-                type="password"
-                value={senhaAtual}
-                onChange={(e) => setSenhaAtual(e.target.value)}
-                placeholder="Digite sua senha atual"
-              />
-            </div>
+              {/* Senha Atual */}
+              <div className="modal-field">
+                <label className="modal-label">Senha Atual</label>
+                <input
+                  type="password"
+                  value={senhaAtual}
+                  onChange={(e) => setSenhaAtual(e.target.value)}
+                  placeholder="Digite sua senha atual"
+                />
+              </div>
 
-            <div className="modal-field">
-              <label className="modal-label">Nova Senha</label>
-              <input
-                type="password"
-                value={novaSenha}
-                onChange={(e) => setNovaSenha(e.target.value)}
-                placeholder="Digite a nova senha"
-              />
-            </div>
+              {/* Nova Senha */}
+              <div className="modal-field">
+                <label className="modal-label">Nova Senha</label>
+                <input
+                  type="password"
+                  value={novaSenha}
+                  onChange={(e) => {
+                    setNovaSenha(e.target.value);
+                    verificarRequisitos(e.target.value); // Atualiza requisitos
+                  }}
+                  onFocus={() => setShowRequisitosNovaSenha(true)}
+                  onBlur={() => setShowRequisitosNovaSenha(false)}
+                  placeholder="Digite a nova senha"
+                />
+              </div>
 
-            <div className="modal-field">
-              <label className="modal-label">Confirmar Senha</label>
-              <input
-                type="password"
-                value={confirmarSenha}
-                onChange={(e) => setConfirmarSenha(e.target.value)}
-                placeholder="Confirme a nova senha"
-              />
-            </div>
+              {/* Requisitos da senha */}
+              {showRequisitosNovaSenha && (
+                <div className="password-requirements small-red">
+                  <p className={requisitosSenha.comprimento ? "ok" : "erro"}>
+                    • Pelo menos 8 dígitos
+                  </p>
+                  <p className={requisitosSenha.maiuscula ? "ok" : "erro"}>
+                    • 1 letra maiúscula
+                  </p>
+                  <p className={requisitosSenha.minuscula ? "ok" : "erro"}>
+                    • 1 letra minúscula
+                  </p>
+                  <p className={requisitosSenha.numero ? "ok" : "erro"}>• 1 número</p>
+                  <p className={requisitosSenha.especial ? "ok" : "erro"}>
+                    • 1 caractere especial (@$!%*?&)
+                  </p>
+                </div>
+              )}
 
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={() => setShowPasswordModal(false)}>
-                Cancelar
-              </button>
-              <button
-                className="save-btn"
-                onClick={() => {
-                  if (!senhaAtual || !novaSenha || !confirmarSenha) {
-                    alert("Preencha todos os campos!");
-                    return;
-                  }
-                  if (novaSenha !== confirmarSenha) {
-                    alert("A nova senha e confirmação não conferem!");
-                    return;
-                  }
-                  handleChangePassword();
-                }}
-              >
-                Salvar
-              </button>
+              {/* Confirmar Senha */}
+              <div className="modal-field">
+                <label className="modal-label">Confirmar Senha</label>
+                <input
+                  type="password"
+                  value={confirmarSenha}
+                  onChange={(e) => setConfirmarSenha(e.target.value)}
+                  placeholder="Confirme a nova senha"
+                />
+              </div>
+
+              {/* Ações */}
+              <div className="modal-actions">
+                <button
+                  className="cancel-btn"
+                  onClick={() => setShowPasswordModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="save-btn"
+                  onClick={() => {
+                    if (!senhaAtual || !novaSenha || !confirmarSenha) {
+                      alert("Preencha todos os campos!");
+                      return;
+                    }
+                    if (novaSenha !== confirmarSenha) {
+                      alert("A nova senha e confirmação não conferem!");
+                      return;
+                    }
+                    if (!validarSenha(novaSenha)) {
+                      alert(
+                        "A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial."
+                      );
+                      return;
+                    }
+                    handleChangePassword();
+                  }}
+                >
+                  Salvar
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       <ScrollToTop />
       <Footer />
