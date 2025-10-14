@@ -516,3 +516,10 @@
 .password-requirements p.erro {
   color: red;
 }
+
+.senha-nao-coincide {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-left: 8px; 
+}

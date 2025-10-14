@@ -83,6 +83,7 @@ export default function Configuracao() {
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [senhasCoincidem, setSenhasCoincidem] = useState(true);
 
   useEffect(() => {
     if (!token || !userId) return;
@@ -412,16 +413,24 @@ const validarSenha = (senha: string) => {
                 </div>
               )}
 
-              {/* Confirmar Senha */}
-              <div className="modal-field">
-                <label className="modal-label">Confirmar Senha</label>
-                <input
-                  type="password"
-                  value={confirmarSenha}
-                  onChange={(e) => setConfirmarSenha(e.target.value)}
-                  placeholder="Confirme a nova senha"
-                />
-              </div>
+             {/* Confirmar Senha */}
+                <div className="modal-field">
+                  <label className="modal-label">Confirmar Senha</label>
+                  <input
+                    type="password"
+                    value={confirmarSenha}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setConfirmarSenha(value);
+                      setSenhasCoincidem(value === novaSenha); // atualiza se coincide
+                    }}
+                    placeholder="Confirme a nova senha"
+                  />
+                  {/* Mensagem de erro se não coincidir */}
+                  {!senhasCoincidem && confirmarSenha && (
+                    <p className="senha-nao-coincide">As senhas não coincidem</p>
+                  )}
+                </div>
 
               {/* Ações */}
               <div className="modal-actions">
