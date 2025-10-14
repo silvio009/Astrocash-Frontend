@@ -78,6 +78,11 @@ export default function Configuracao() {
   const [isEditingSecurity, setIsEditingSecurity] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
 
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [senhaAtual, setSenhaAtual] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+
   useEffect(() => {
     if (!token || !userId) return;
 
@@ -173,6 +178,16 @@ export default function Configuracao() {
     }
   };
 
+  const handleChangePassword = () => {
+    // Função preparada para integração futura com backend
+    console.log({ senhaAtual, novaSenha, confirmarSenha });
+    alert("Função handleChangePassword acionada!");
+    setShowPasswordModal(false);
+    setSenhaAtual("");
+    setNovaSenha("");
+    setConfirmarSenha("");
+  };
+
   if (!formData.nome) return <p>Carregando dados do usuário...</p>;
 
   const enderecoIcons: Record<keyof Endereco, JSX.Element> = {
@@ -197,30 +212,29 @@ export default function Configuracao() {
       <main className="config-main">
         <div className="config-hero">
           <ProfilePhotoUploader
-              key={formData.fotoPerfil} // força remount quando mudar
-              initialImage={formData.fotoPerfil}
-              onComplete={async (base64) => {
-                try {
-                  const res = await fetch(`http://localhost:8080/users/foto`, {
-                    method: "PATCH",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ fotoPerfil: base64 }),
-                  });
+            key={formData.fotoPerfil} 
+            initialImage={formData.fotoPerfil}
+            onComplete={async (base64) => {
+              try {
+                const res = await fetch(`http://localhost:8080/users/foto`, {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({ fotoPerfil: base64 }),
+                });
 
-                  if (!res.ok) throw new Error("Erro ao atualizar foto de perfil");
+                if (!res.ok) throw new Error("Erro ao atualizar foto de perfil");
 
-                  const updatedUser = await res.json();
-                  setFormData((prev) => ({ ...prev, fotoPerfil: updatedUser.fotoPerfil }));
-                } catch (err) {
-                  console.error(err);
-                  alert("Erro ao atualizar foto de perfil");
-                }
-              }}
-            />
-
+                const updatedUser = await res.json();
+                setFormData((prev) => ({ ...prev, fotoPerfil: updatedUser.fotoPerfil }));
+              } catch (err) {
+                console.error(err);
+                alert("Erro ao atualizar foto de perfil");
+              }
+            }}
+          />
 
           <h1>{formData.nome}</h1>
         </div>
@@ -234,11 +248,7 @@ export default function Configuracao() {
             <div className="config-item">
               <User /> <label>Nome</label>
               {isEditingInfo ? (
-                <input
-                  name="nome"
-                  value={formData.nome}
-                  onChange={handleChange}
-                />
+                <input name="nome" value={formData.nome} onChange={handleChange} />
               ) : (
                 <span>{formData.nome}</span>
               )}
@@ -246,11 +256,7 @@ export default function Configuracao() {
             <div className="config-item">
               <Mail /> <label>Email</label>
               {isEditingInfo ? (
-                <input
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
+                <input name="email" value={formData.email} onChange={handleChange} />
               ) : (
                 <span>{formData.email}</span>
               )}
@@ -258,11 +264,7 @@ export default function Configuracao() {
             <div className="config-item">
               <Phone /> <label>Telefone</label>
               {isEditingInfo ? (
-                <input
-                  name="telefone"
-                  value={formData.telefone}
-                  onChange={handleChange}
-                />
+                <input name="telefone" value={formData.telefone} onChange={handleChange} />
               ) : (
                 <span>{formData.telefone}</span>
               )}
@@ -273,42 +275,26 @@ export default function Configuracao() {
             <div className="config-item">
               <Calendar /> <label>Data de cadastro</label>
               <span>
-                {formData.dataCadastro
-                  ? new Date(formData.dataCadastro).toLocaleString("pt-BR")
-                  : ""}
+                {formData.dataCadastro ? new Date(formData.dataCadastro).toLocaleString("pt-BR") : ""}
               </span>
             </div>
             {isEditingInfo && (
               <div className="config-actions">
-                <span className="link-editar salvar" onClick={handleSaveInfo}>
-                  Salvar
-                </span>
-                <span
-                  className="link-editar cancelar"
-                  onClick={() => setIsEditingInfo(false)}
-                >
-                  Cancelar
-                </span>
+                <span className="link-editar salvar" onClick={handleSaveInfo}>Salvar</span>
+                <span className="link-editar cancelar" onClick={() => setIsEditingInfo(false)}>Cancelar</span>
               </div>
             )}
           </CardSection>
 
           {/* Segurança */}
-          <CardSection
-            title="Segurança"
-            onEdit={() => setIsEditingSecurity(!isEditingSecurity)}
-          >
+          <CardSection title="Segurança" onEdit={() => setShowPasswordModal(true)}>
             <div className="config-item">
               <Mail /> <label>Email</label>
               <span>{formData.email}</span>
             </div>
             <div className="config-item">
               <Lock /> <label>Senha</label>
-              {isEditingSecurity ? (
-                <input type="password" placeholder="Nova senha" />
-              ) : (
-                <span>************</span>
-              )}
+              <span>************</span>
             </div>
           </CardSection>
 
@@ -317,30 +303,19 @@ export default function Configuracao() {
             title={
               <>
                 Endereço
-                {isFetched &&
-                  Object.values(formData.endereco).every((value) => !value) && (
-                    <span className="endereco-pendente">
-                      * informações pendentes
-                    </span>
-                  )}
+                {isFetched && Object.values(formData.endereco).every((value) => !value) && (
+                  <span className="endereco-pendente">* informações pendentes</span>
+                )}
               </>
             }
             onEdit={() => setIsEditingEndereco(!isEditingEndereco)}
           >
-            {(
-              Object.keys(formData.endereco) as (keyof Endereco)[]
-            ).map((field) => (
+            {(Object.keys(formData.endereco) as (keyof Endereco)[]).map((field) => (
               <div className="config-item" key={field}>
                 {enderecoIcons[field]}
-                <label>
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </label>
+                <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
                 {isEditingEndereco ? (
-                  <input
-                    name={field}
-                    value={formData.endereco[field]}
-                    onChange={handleChange}
-                  />
+                  <input name={field} value={formData.endereco[field]} onChange={handleChange} />
                 ) : (
                   <span>{formData.endereco[field]}</span>
                 )}
@@ -349,23 +324,76 @@ export default function Configuracao() {
 
             {isEditingEndereco && (
               <div className="config-actions">
-                <span
-                  className="link-editar salvar"
-                  onClick={handleSaveEndereco}
-                >
-                  Salvar
-                </span>
-                <span
-                  className="link-editar cancelar"
-                  onClick={() => setIsEditingEndereco(false)}
-                >
-                  Cancelar
-                </span>
+                <span className="link-editar salvar" onClick={handleSaveEndereco}>Salvar</span>
+                <span className="link-editar cancelar" onClick={() => setIsEditingEndereco(false)}>Cancelar</span>
               </div>
             )}
           </CardSection>
         </div>
       </main>
+
+      {/* Modal de Senha */}
+      {showPasswordModal && (
+        <div className="modal-overlay">
+          <div className="modal-content modal-content-large">
+            <h2 className="modal-title">
+              <Lock className="icon-title" /> Alterar Senha
+            </h2>
+
+            <div className="modal-field">
+              <label className="modal-label">Senha Atual</label>
+              <input
+                type="password"
+                value={senhaAtual}
+                onChange={(e) => setSenhaAtual(e.target.value)}
+                placeholder="Digite sua senha atual"
+              />
+            </div>
+
+            <div className="modal-field">
+              <label className="modal-label">Nova Senha</label>
+              <input
+                type="password"
+                value={novaSenha}
+                onChange={(e) => setNovaSenha(e.target.value)}
+                placeholder="Digite a nova senha"
+              />
+            </div>
+
+            <div className="modal-field">
+              <label className="modal-label">Confirmar Senha</label>
+              <input
+                type="password"
+                value={confirmarSenha}
+                onChange={(e) => setConfirmarSenha(e.target.value)}
+                placeholder="Confirme a nova senha"
+              />
+            </div>
+
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setShowPasswordModal(false)}>
+                Cancelar
+              </button>
+              <button
+                className="save-btn"
+                onClick={() => {
+                  if (!senhaAtual || !novaSenha || !confirmarSenha) {
+                    alert("Preencha todos os campos!");
+                    return;
+                  }
+                  if (novaSenha !== confirmarSenha) {
+                    alert("A nova senha e confirmação não conferem!");
+                    return;
+                  }
+                  handleChangePassword();
+                }}
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <ScrollToTop />
       <Footer />
