@@ -20,6 +20,8 @@ import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 import ProfilePhotoUploader from "../../Components/Profile/ProfilePhotoUploader"
 import "./configuracoes.css";
 import UserIcon from "../../assets/user-icon.png";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 type Endereco = {
   rua: string;
@@ -205,15 +207,41 @@ const validarSenha = (senha: string) => {
   return regex.test(senha);
 };
 
-  const handleChangePassword = () => {
-    // Função preparada para integração futura com backend
-    console.log({ senhaAtual, novaSenha, confirmarSenha });
-    alert("Função handleChangePassword acionada!");
+const handleChangePassword = async () => {
+  try {
+    // Simulação!!!!!// 
+    const response = await fetch(`http://localhost:8080/users/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ senhaAtual, novaSenha, confirmarSenha }),
+    });
+
+    if (!response.ok) throw new Error("Erro ao alterar a senha");
+
+    Swal.fire({
+      icon: "success",
+      title: "Senha alterada!",
+      text: "Sua senha foi atualizada com sucesso.",
+      confirmButtonText: "OK",
+    });
+
     setShowPasswordModal(false);
     setSenhaAtual("");
     setNovaSenha("");
     setConfirmarSenha("");
-  };
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: "error",
+      title: "Erro",
+      text: "Não foi possível alterar a senha. Verifique os dados e tente novamente.",
+      confirmButtonText: "OK",
+    });
+  }
+};
 
   if (!formData.nome) return <p>Carregando dados do usuário...</p>;
 
