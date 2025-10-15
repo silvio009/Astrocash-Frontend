@@ -219,7 +219,6 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
     });
   };
 
-  // ✅ Clique no logo
   const handleLogoClick = () => {
     if (location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -253,7 +252,7 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
               title="Notificações"
               onClick={handleOpenNotifications}
             >
-              <FaBell size={27} />
+              <FaBell size={30} />
               {notificacoes.length > 0 && (
                 <span className="notification-badge">
                   {notificacoes.length}
@@ -285,7 +284,6 @@ export default function HeaderLogged({ toggleMenu, menuOpen }: HeaderProps) {
             )}
           </div>
 
-          {/* 👤 Ícone do perfil */}
           <button
             ref={profileBtnRef}
             className="profile-icon"

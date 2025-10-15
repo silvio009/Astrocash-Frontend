@@ -208,10 +208,27 @@ const validarSenha = (senha: string) => {
 };
 
 const handleChangePassword = async () => {
+  if (!senhaAtual || !novaSenha || !confirmarSenha) {
+    Swal.fire({
+      icon: "warning",
+      title: "Campos obrigatórios",
+      text: "Preencha todos os campos para continuar.",
+    });
+    return;
+  }
+
+  if (novaSenha !== confirmarSenha) {
+    Swal.fire({
+      icon: "error",
+      title: "Senhas diferentes",
+      text: "A nova senha e a confirmação não coincidem.",
+    });
+    return;
+  }
+
   try {
-    // Simulação!!!!!// 
-    const response = await fetch(`http://localhost:8080/users/change-password`, {
-      method: "POST",
+    const response = await fetch(`http://localhost:8080/users/alterar-senha`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -219,7 +236,25 @@ const handleChangePassword = async () => {
       body: JSON.stringify({ senhaAtual, novaSenha, confirmarSenha }),
     });
 
-    if (!response.ok) throw new Error("Erro ao alterar a senha");
+    if (!response.ok) {
+      let errorMessage = "Senha atual incorreta";
+
+      try {
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } else {
+          const textError = await response.text();
+          if (textError) errorMessage = textError;
+        }
+      } catch (e) {
+        console.error("Erro ao processar resposta do backend:", e);
+      }
+
+      throw new Error(errorMessage);
+    }
 
     Swal.fire({
       icon: "success",
@@ -233,12 +268,10 @@ const handleChangePassword = async () => {
     setNovaSenha("");
     setConfirmarSenha("");
   } catch (err) {
-    console.error(err);
     Swal.fire({
       icon: "error",
-      title: "Erro",
-      text: "Não foi possível alterar a senha. Verifique os dados e tente novamente.",
-      confirmButtonText: "OK",
+      title: "Erro ao alterar senha",
+      text: err.message || "Não foi possível processar sua solicitação.",
     });
   }
 };
